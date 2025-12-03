@@ -309,8 +309,30 @@
         let activeStage = "";
 
         function show(id) {
-            document.querySelectorAll('.screen').forEach(s => { s.classList.remove('active'); setTimeout(()=>s.style.display='none', 400); });
-            const el = document.getElementById(id); el.style.display = 'flex'; setTimeout(()=>el.classList.add('active'), 10);
+            // 1. إخفاء جميع الشاشات الأخرى فقط
+            document.querySelectorAll('.screen').forEach(s => {
+                if (s.id !== id) { // هذا هو التعديل المهم: لا تخفي الشاشة الحالية
+                    s.classList.remove('active');
+                    setTimeout(() => {
+                        // تأكد أنها ليست الشاشة النشطة قبل الإخفاء التام
+                        if (!s.classList.contains('active')) {
+                            s.style.display = 'none';
+                        }
+                    }, 400);
+                }
+            });
+
+            // 2. إظهار الشاشة المطلوبة
+            const el = document.getElementById(id);
+            el.style.display = 'flex'; // اجعلها مرئية فوراً
+            
+            // تأخير بسيط جداً لتشغيل الأنيميشن
+            setTimeout(() => {
+                el.classList.add('active');
+            }, 50);
+            
+            // تشغيل صوت النقر (اختياري لو أردت إعادته)
+            // playTone('click'); 
         }
 
         function login() {
@@ -396,3 +418,4 @@
     </script>
 </body>
 </html>
+
