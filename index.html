@@ -87,7 +87,7 @@
         .g-title { font-size: 1.2rem; font-weight: 800; color: white; }
         .g-sub { font-size: 0.75rem; color: var(--primary); font-weight: bold; }
 
-        /* --- نافذة الدليل --- */
+        /* --- نافذة الدليل (محدثة) --- */
         .modal-glass {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.9); z-index: 100;
@@ -98,15 +98,16 @@
         .guide-content {
             background: #151515; border: 1px solid var(--primary);
             border-radius: 20px; width: 100%; max-width: 450px;
-            padding: 25px; text-align: right; max-height: 80vh; overflow-y: auto;
+            padding: 25px; text-align: right; max-height: 85vh; overflow-y: auto;
         }
         .step-box {
             background: rgba(255,255,255,0.05); border-right: 3px solid var(--primary);
-            padding: 10px; margin-bottom: 10px; border-radius: 8px;
+            padding: 12px; margin-bottom: 12px; border-radius: 8px;
         }
-        .step-head { color: var(--primary); font-weight: bold; font-size: 1rem; display: flex; justify-content: space-between; margin-bottom: 5px;}
-        .step-count { background: var(--primary); color: black; font-size: 0.7rem; padding: 2px 6px; border-radius: 8px; height: fit-content; }
-        .step-desc { color: #ccc; font-size: 0.8rem; line-height: 1.4; }
+        .step-head { color: var(--primary); font-weight: bold; font-size: 1rem; display: flex; justify-content: space-between; margin-bottom: 8px;}
+        .step-count { background: var(--primary); color: black; font-size: 0.7rem; padding: 3px 8px; border-radius: 8px; height: fit-content; font-weight: bold; }
+        .step-desc { color: #ccc; font-size: 0.85rem; line-height: 1.5; }
+        .guide-intro { color: #aaa; text-align: center; font-size: 0.9rem; margin-bottom: 20px; line-height: 1.6; }
 
         /* --- الكروت --- */
         .card-stage {
@@ -137,50 +138,65 @@
         .rp-label { color: var(--accent); font-size: 0.9rem; margin-bottom: 5px; font-weight: bold; }
         .rp-val { color: white; font-size: 1.1rem; margin-bottom: 15px; border-bottom: 1px solid #333; padding-bottom: 10px; }
 
-        /* --- الطوارئ --- */
-        .panic-btn {
-            position: fixed; top: 15px; left: 15px; width: 40px; height: 40px;
-            border-radius: 50%; background: rgba(255,255,255,0.1); border: none; z-index: 999;
-        }
-        #safe-screen { background: black; z-index: 1000; justify-content: center; }
-        .clock { font-size: 5rem; color: #333; font-family: monospace; font-weight: bold; }
-
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
     </style>
 </head>
 <body>
 
-    <button class="panic-btn" onclick="togglePanic()">🔒</button>
-
-    <div id="safe-screen" class="screen">
-        <div class="clock" id="clock-display">00:00</div>
-    </div>
-
     <div id="modal-guide" class="modal-glass">
         <div class="guide-content">
-            <h2 style="color:white; text-align:center; margin-top:0;">🗺️ خريطة السعادة</h2>
+            <h2 style="color:white; text-align:center; margin-top:0;">🌙 ازاي تبدؤوا الليلة؟</h2>
+            <p class="guide-intro">عشان تعيشوا تجربة متكاملة، اللعبة متصممة بنظام "الرحلة المتدرجة". اقرأوا الدليل ده سوا قبل ما تدوسوا على أول كارت 👇</p>
+
             <div class="step-box">
-                <div class="step-head"><span>1. فك الشفرة 😂</span><span class="step-count">5-10 كروت</span></div>
-                <div class="step-desc">البداية لازم تكون ضحك وفرفشة لكسر التوتر.</div>
+                <div class="step-head"><span>1. فك الشفرة 😂 (التهيئة)</span><span class="step-count">10 كروت</span></div>
+                <div class="step-desc">
+                    <strong>الهدف:</strong> كسر الملل وفصل دماغكم عن الشغل والبيت.<br>
+                    <strong>الطريقة:</strong> اسحبوا 10 كروت (5 لكل واحد) واضحكوا من قلبكم. دي أهم مرحلة عشان تصفوا الذهن للي جاي.
+                </div>
             </div>
+
             <div class="step-box">
-                <div class="step-head"><span>2. كلمة سر ❤️</span><span class="step-count">3-5 كروت</span></div>
-                <div class="step-desc">وقت المشاعر وشحن الرصيد العاطفي.</div>
+                <div class="step-head"><span>2. كلمة سر ❤️ (المشاعر)</span><span class="step-count">5 كروت</span></div>
+                <div class="step-desc">
+                    <strong>الهدف:</strong> تشغيل المشاعر والإحساس بالأمان.<br>
+                    <strong>الطريقة:</strong> اسحبوا كروت قليلة هنا، بس جاوبوا بصدق وبصوا في عين بعض. دي مرحلة شحن "الرصيد العاطفي" قبل الجسدي.
+                </div>
             </div>
+
             <div class="step-box">
-                <div class="step-head"><span>3. لمسة وهمسة 🔥</span><span class="step-count">5-7 كروت</span></div>
-                <div class="step-desc">بداية التسخين (Foreplay) وإثارة الحواس.</div>
+                <div class="step-head"><span>3. لمسة وهمسة 🔥 (التسخين)</span><span class="step-count">7-10 كروت</span></div>
+                <div class="step-desc">
+                    <strong>الهدف:</strong> إثارة الحواس (لمس، نظر، سمع) لأقصى درجة.<br>
+                    <strong>الطريقة:</strong> ممنوع الاستعجال! خدوا وقتكم في كل كارت. دي مرحلة الـ Foreplay اللي هتعلي الرغبة للسماء.
+                </div>
             </div>
+
             <div class="step-box" style="border-color: var(--accent);">
-                <div class="step-head"><span style="color:var(--accent)">4. المنطقة المحظورة 🔞</span><span class="step-count" style="background:var(--accent); color:white;">عيشوا</span></div>
-                <div class="step-desc">الأكشن وتغيير الروتين وتحديات جريئة.</div>
+                <div class="step-head"><span style="color:var(--accent)">4. المنطقة المحظورة 🔞</span><span class="step-count" style="background:var(--accent); color:white;">براحتكم</span></div>
+                <div class="step-desc">
+                    <strong>الهدف:</strong> الأكشن وتغيير الروتين.<br>
+                    <strong>الطريقة:</strong> دي مرحلة الانطلاق. العبوا لحد ما تتعبوا، وجربوا تحديات جديدة تكسروا بيها أي ملل في العلاقة.
+                </div>
             </div>
+
+            <div class="step-box" style="border: 1px dashed #666;">
+                <div class="step-head"><span style="color:#aaa">🎭 مسرح الأحلام (سيناريوهات)</span><span class="step-count" style="background:#555">اختياري</span></div>
+                <div class="step-desc">
+                    <strong>إمتى نستخدمه؟</strong> دي بديل للمراحل الكلاسيكية. لو حابين ليلة بـ Theme معين (زي دكتور ومريضة)، ادخلوا هنا الأول، شوفوا السيناريو، جهزوا اللبس، وعيشوا الدور.
+                </div>
+            </div>
+
             <div class="step-box">
-                <div class="step-head"><span>5. خربش واكسب 🎁</span><span class="step-count">النهاية</span></div>
-                <div class="step-desc">وقت المكافأة والختام المسك.</div>
+                <div class="step-head"><span>5. خربش واكسب 🎁 (الختام)</span><span class="step-count">كارت واحد</span></div>
+                <div class="step-desc">
+                    <strong>الهدف:</strong> مكافأة ما بعد العلاقة (Aftercare).<br>
+                    <strong>الطريقة:</strong> بعد ما الليلة تخلص، خربشوا كارت واحد عشان تشوفوا مين هيدلع التاني بكرة.
+                </div>
             </div>
-            <button class="btn-gold" onclick="closeGuide()">فهمت.. يلا نبدأ 🚀</button>
+
+            <button class="btn-gold" onclick="closeGuide()">جاهزين.. يلا نبدأ 🚀</button>
         </div>
     </div>
 
@@ -203,7 +219,7 @@
                 <h2 style="color:white; margin:0;">رحلة الليلة الواحدة 🔥</h2>
                 <p style="color:var(--primary); font-size:0.8rem; margin:5px 0 0 0;">امشوا بالترتيب لأقصى متعة</p>
             </div>
-            <button class="guide-btn" onclick="openGuide()">دليل الرحلة 🗺️</button>
+            <button class="guide-btn" onclick="openGuide()">ازاي تبدؤوا؟ 🗺️</button>
         </div>
         
         <div class="games-grid">
@@ -389,7 +405,7 @@
             ]
         };
 
-        // --- المنطق المحدث ---
+        // --- المنطق ---
         let currentQ = [];
         let activeStage = "";
 
@@ -485,12 +501,6 @@
         // --- Guide Logic ---
         function openGuide() { document.getElementById('modal-guide').classList.add('show'); }
         function closeGuide() { document.getElementById('modal-guide').classList.remove('show'); }
-
-        // --- Panic Logic ---
-        let panic=false;
-        function togglePanic() { panic=!panic; const s=document.getElementById('safe-screen'); s.style.display=panic?'flex':'none'; }
-        setInterval(()=>{const d=new Date(); document.getElementById('clock-display').innerText=d.getHours().toString().padStart(2,'0')+':'+d.getMinutes().toString().padStart(2,'0');}, 1000);
-        let taps=0; document.getElementById('safe-screen').addEventListener('click',()=>{taps++; if(taps>=3){togglePanic(); taps=0;}});
 
     </script>
 </body>
