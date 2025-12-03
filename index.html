@@ -28,10 +28,31 @@
             display: none; width: 100%; height: 100%;
             position: relative; z-index: 2;
             flex-direction: column; align-items: center;
-            padding: 15px; overflow-y: auto; /* سكرول للقوائم الطويلة فقط */
+            padding: 15px; overflow-y: auto;
             opacity: 0; transition: opacity 0.3s ease-in;
         }
         .screen.active { display: flex; opacity: 1; }
+
+        /* --- الشريط العلوي الجديد (Top Bar) --- */
+        .top-nav {
+            width: 100%; max-width: 500px;
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 20px;
+            padding: 0 5px;
+        }
+        .nav-title {
+            font-size: 1.2rem; font-weight: 800; color: var(--primary);
+            margin: 0; text-align: center; flex-grow: 1;
+        }
+        .exit-btn {
+            background: rgba(255,255,255,0.1); border: 1px solid #444;
+            color: #aaa; width: 40px; height: 40px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.2rem; cursor: pointer; transition: 0.3s;
+            flex-shrink: 0; /* منع الانكماش */
+        }
+        .exit-btn:active { background: var(--accent); color: white; border-color: var(--accent); }
+        .dummy-space { width: 40px; } /* لضبط التوسط */
 
         /* --- صفحة الدخول --- */
         .login-box {
@@ -109,9 +130,8 @@
         .step-desc { color: #ccc; font-size: 0.8rem; line-height: 1.4; }
         .guide-intro { color: #aaa; text-align: center; font-size: 0.85rem; margin-bottom: 15px; line-height: 1.5; }
 
-        /* --- الكروت (تم التعديل: تصغير الحجم) --- */
+        /* --- الكروت --- */
         .card-stage {
-            /* الحجم الجديد المناسب للموبايل */
             perspective: 1000px; width: 100%; max-width: 320px; height: 340px;
             margin: auto; display: flex; align-items: center; justify-content: center;
         }
@@ -129,8 +149,6 @@
         .front { background: #111 url('https://www.transparenttextures.com/patterns/carbon-fibre.png'); }
         .back { background: #151515; transform: rotateY(180deg); }
         .flipped { transform: rotateY(180deg); }
-        
-        /* تصغير الخط قليلاً ليتناسب مع الكارت الجديد */
         .text-content { font-size: 1.25rem; font-weight: bold; line-height: 1.4; color: #fff; }
 
         /* --- مسرح الأحلام (Roleplay) --- */
@@ -159,7 +177,6 @@
                     <strong>الطريقة:</strong> اسحبوا 10 كروت (5 لكل واحد) واضحكوا من قلبكم. دي أهم مرحلة عشان تصفوا الذهن للي جاي.
                 </div>
             </div>
-
             <div class="step-box">
                 <div class="step-head"><span>2. كلمة سر ❤️ (المشاعر)</span><span class="step-count">5 كروت</span></div>
                 <div class="step-desc">
@@ -167,7 +184,6 @@
                     <strong>الطريقة:</strong> اسحبوا كروت قليلة هنا، بس جاوبوا بصدق وبصوا في عين بعض. دي مرحلة شحن "الرصيد العاطفي" قبل الجسدي.
                 </div>
             </div>
-
             <div class="step-box">
                 <div class="step-head"><span>3. لمسة وهمسة 🔥 (التسخين)</span><span class="step-count">7-10 كروت</span></div>
                 <div class="step-desc">
@@ -175,7 +191,6 @@
                     <strong>الطريقة:</strong> ممنوع الاستعجال! خدوا وقتكم في كل كارت. دي مرحلة الـ Foreplay اللي هتعلي الرغبة للسماء.
                 </div>
             </div>
-
             <div class="step-box" style="border-color: var(--accent);">
                 <div class="step-head"><span style="color:var(--accent)">4. المنطقة المحظورة 🔞</span><span class="step-count" style="background:var(--accent); color:white;">براحتكم</span></div>
                 <div class="step-desc">
@@ -183,14 +198,12 @@
                     <strong>الطريقة:</strong> دي مرحلة الانطلاق. العبوا لحد ما تتعبوا، وجربوا تحديات جديدة تكسروا بيها أي ملل في العلاقة.
                 </div>
             </div>
-
             <div class="step-box" style="border: 1px dashed #666;">
                 <div class="step-head"><span style="color:#aaa">🎭 مسرح الأحلام (سيناريوهات)</span><span class="step-count" style="background:#555">اختياري</span></div>
                 <div class="step-desc">
                     <strong>إمتى نستخدمه؟</strong> دي بديل للمراحل الكلاسيكية. لو حابين ليلة بـ Theme معين (زي دكتور ومريضة)، ادخلوا هنا الأول، شوفوا السيناريو، جهزوا اللبس، وعيشوا الدور.
                 </div>
             </div>
-
             <div class="step-box">
                 <div class="step-head"><span>5. خربش واكسب 🎁 (الختام)</span><span class="step-count">كارت واحد</span></div>
                 <div class="step-desc">
@@ -272,8 +285,11 @@
     </div>
 
     <div id="gameplay" class="screen">
-        <h2 id="g-header" style="color:var(--primary); margin-bottom: 10px;"></h2>
-        
+        <div class="top-nav">
+            <button class="exit-btn" onclick="goHome()">✕</button>
+            <h2 id="g-header" class="nav-title"></h2>
+            <div class="dummy-space"></div> </div>
+
         <div class="card-stage">
             <div class="flipper" id="card-obj">
                 <div class="front">
@@ -285,24 +301,31 @@
                 </div>
             </div>
         </div>
-
         <button class="btn-gold" style="width:200px; margin-top:20px;" onclick="flip()">اسحب كارت</button>
-        <button style="background:none; border:none; color:#888; margin-top:10px;" onclick="goHome()">إنهاء</button>
     </div>
 
     <div id="scratch-area" class="screen" style="justify-content: center;">
-        <h2 style="color:var(--primary); margin-bottom: 10px;">خربش هديتك 🎁</h2>
+        <div class="top-nav" style="margin-bottom: 30px;">
+            <button class="exit-btn" onclick="goHome()">✕</button>
+            <h2 class="nav-title" style="color:var(--primary);">خربش هديتك 🎁</h2>
+            <div class="dummy-space"></div>
+        </div>
+
         <div style="position:relative; width:300px; height:150px; border:2px dashed var(--primary); border-radius:15px; overflow:hidden; background: #fff;">
             <div id="prize-txt" style="position:absolute; width:100%; height:100%; display:flex; justify-content:center; align-items:center; background:white; color:black; font-size:1.4rem; font-weight:bold; padding: 10px; text-align: center;"></div>
             <canvas id="cvs" style="position:absolute; top:0; left:0;"></canvas>
         </div>
         <button class="btn-gold" style="width:200px; margin-top:20px;" onclick="resetScratch()">جايزة تانية</button>
-        <button style="background:none; border:none; color:#888; margin-top:10px;" onclick="goHome()">رجوع</button>
     </div>
 
     <div id="roleplay-area" class="screen">
-        <h2 style="color:var(--accent);">🎭 مسرح الأحلام</h2>
-        <p style="color:#aaa; font-size:0.9rem; margin-bottom:20px;">سيناريو جاهز لليلة مختلفة</p>
+        <div class="top-nav">
+            <button class="exit-btn" onclick="goHome()">✕</button>
+            <h2 class="nav-title" style="color:var(--accent);">🎭 مسرح الأحلام</h2>
+            <div class="dummy-space"></div>
+        </div>
+
+        <p style="color:#aaa; font-size:0.9rem; margin-bottom:20px; text-align:center;">سيناريو جاهز لليلة مختلفة</p>
         
         <div class="rp-box">
             <div class="rp-label">الشخصيات:</div>
@@ -316,7 +339,6 @@
         </div>
 
         <button class="btn-gold" style="width:200px; margin-top:20px; background: linear-gradient(90deg, #e50914, #ff5050);" onclick="genRoleplay()">سيناريو جديد 🎬</button>
-        <button style="background:none; border:none; color:#888; margin-top:10px;" onclick="goHome()">رجوع</button>
     </div>
 
     <script>
