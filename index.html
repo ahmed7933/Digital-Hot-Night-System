@@ -3,14 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Infinity Passion | باقة السعادة</title>
+    <title>INFINITY | باقة السعادة</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #d4af37; /* ذهبي فخم */
-            --secondary: #e50914; /* أحمر ناري */
-            --bg: #050505; /* أسود حالك */
-            --glass: rgba(255, 255, 255, 0.05);
+            --primary: #d4af37; /* ذهبي */
+            --bg: #050505; /* أسود */
+            --glass: rgba(255, 255, 255, 0.08);
             --border: rgba(212, 175, 55, 0.3);
         }
 
@@ -19,10 +18,8 @@
         body {
             margin: 0;
             background-color: var(--bg);
-            /* خلفية متحركة */
-            background-image: 
-                radial-gradient(circle at 10% 20%, rgba(229, 9, 20, 0.1) 0%, transparent 20%),
-                radial-gradient(circle at 90% 80%, rgba(212, 175, 55, 0.1) 0%, transparent 20%);
+            /* خلفية هادئة وثابتة */
+            background-image: radial-gradient(circle at 50% 50%, #1a0505 0%, #000 80%);
             font-family: 'Cairo', sans-serif;
             color: white;
             height: 100vh;
@@ -32,21 +29,6 @@
             align-items: center;
         }
 
-        /* --- أنيميشن الخلفية --- */
-        @keyframes pulse-bg {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.02); }
-            100% { transform: scale(1); }
-        }
-        .bg-anim {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: url('https://www.transparenttextures.com/patterns/cubes.png');
-            opacity: 0.1;
-            animation: pulse-bg 10s infinite alternate;
-            pointer-events: none;
-            z-index: 0;
-        }
-
         /* --- الشاشات --- */
         .screen {
             display: none; width: 100%; height: 100%;
@@ -54,20 +36,20 @@
             flex-direction: column; align-items: center;
             padding: 20px;
             overflow-y: auto;
-            opacity: 0; transition: opacity 0.5s;
+            opacity: 0; transition: opacity 0.4s ease-in;
         }
         .screen.active { display: flex; opacity: 1; }
 
-        /* --- صفحة الدخول (Premium Login) --- */
+        /* --- صفحة الدخول --- */
         .login-box {
-            background: rgba(0,0,0,0.8);
-            backdrop-filter: blur(15px);
+            background: rgba(10, 10, 10, 0.9);
+            backdrop-filter: blur(10px);
             border: 1px solid var(--border);
             padding: 40px 20px;
             border-radius: 30px;
             text-align: center;
             width: 100%; max-width: 400px;
-            box-shadow: 0 0 30px rgba(0,0,0,0.5);
+            box-shadow: 0 0 40px rgba(0,0,0,0.7);
             margin: auto;
         }
 
@@ -76,34 +58,24 @@
             background: linear-gradient(45deg, var(--primary), #fff);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin-bottom: 5px;
-            letter-spacing: 2px;
+            margin-bottom: 5px; letter-spacing: 2px;
         }
 
-        .sub-headline {
-            color: #aaa; font-size: 0.9rem; margin-bottom: 30px; line-height: 1.6;
-        }
+        .sub-headline { color: #aaa; font-size: 0.9rem; margin-bottom: 30px; line-height: 1.6; }
 
         .input-vip {
             background: rgba(255,255,255,0.05);
             border: 1px solid var(--border);
-            padding: 15px;
-            border-radius: 50px;
-            color: var(--primary);
-            width: 100%; text-align: center;
-            font-size: 1.3rem; letter-spacing: 5px;
-            margin-bottom: 20px; transition: 0.3s;
+            padding: 15px; border-radius: 50px;
+            color: var(--primary); width: 100%; text-align: center;
+            font-size: 1.3rem; letter-spacing: 5px; margin-bottom: 20px;
         }
-        .input-vip:focus { box-shadow: 0 0 15px var(--border); border-color: var(--primary); }
 
         .btn-gold {
             background: linear-gradient(90deg, #b8860b, #ffd700, #b8860b);
-            background-size: 200%;
-            color: black; font-weight: bold;
-            padding: 15px; width: 100%;
-            border-radius: 50px; border: none;
-            font-size: 1.1rem; cursor: pointer;
-            animation: shine 3s infinite linear;
+            background-size: 200%; color: black; font-weight: bold;
+            padding: 15px; width: 100%; border-radius: 50px; border: none;
+            font-size: 1.1rem; cursor: pointer; animation: shine 4s infinite linear;
         }
         @keyframes shine { to { background-position: 200% center; } }
 
@@ -114,28 +86,29 @@
         }
 
         .game-item {
-            position: relative;
-            height: 120px;
-            border-radius: 20px;
-            overflow: hidden;
-            cursor: pointer;
-            border: 1px solid rgba(255,255,255,0.1);
-            transition: transform 0.2s;
+            position: relative; height: 130px; border-radius: 20px;
+            overflow: hidden; cursor: pointer;
+            border: 1px solid rgba(255,255,255,0.15);
+            transform: translateZ(0); /* لتحسين الأداء */
         }
-        .game-item:active { transform: scale(0.97); }
-        .game-item img { width: 100%; height: 100%; object-fit: cover; opacity: 0.5; transition: 0.5s; }
-        .game-item:hover img { opacity: 0.3; transform: scale(1.1); }
+        .game-item img {
+            width: 100%; height: 100%; object-fit: cover;
+            opacity: 0.6; transition: 0.5s;
+        }
+        .game-item:hover img { opacity: 0.4; transform: scale(1.05); }
         
         .game-label {
-            position: absolute; bottom: 15px; right: 15px;
+            position: absolute; bottom: 0; left: 0; width: 100%;
+            padding: 15px;
+            background: linear-gradient(to top, black, transparent);
             text-align: right;
         }
-        .g-title { font-size: 1.4rem; font-weight: 900; color: white; text-shadow: 0 2px 5px black; }
+        .g-title { font-size: 1.3rem; font-weight: 800; color: white; margin-bottom: 2px; }
         .g-sub { font-size: 0.8rem; color: var(--primary); font-weight: bold; }
 
         /* --- الكروت --- */
         .card-stage {
-            perspective: 1000px; width: 100%; max-width: 400px; height: 400px;
+            perspective: 1000px; width: 100%; max-width: 400px; height: 420px;
             margin: auto; display: flex; align-items: center; justify-content: center;
         }
         .flipper {
@@ -146,120 +119,111 @@
             position: absolute; width: 100%; height: 100%;
             backface-visibility: hidden; border-radius: 25px;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
-            padding: 30px; text-align: center;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+            padding: 25px; text-align: center;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
             border: 2px solid var(--primary);
         }
         .front {
             background: #111;
-            background-image: repeating-linear-gradient(45deg, #151515 25%, transparent 25%, transparent 75%, #151515 75%, #151515), repeating-linear-gradient(45deg, #151515 25%, #111 25%, #111 75%, #151515 75%, #151515);
-            background-position: 0 0, 10px 10px;
+            background-image: radial-gradient(#222 1px, transparent 1px);
             background-size: 20px 20px;
         }
         .back {
             background: #1a1a1a; transform: rotateY(180deg);
+            background: linear-gradient(135deg, #222, #000);
         }
         .flipped { transform: rotateY(180deg); }
 
-        .text-content { font-size: 1.8rem; font-weight: bold; line-height: 1.5; color: #fff; }
+        .text-content { font-size: 1.6rem; font-weight: bold; line-height: 1.5; color: #fff; }
 
         /* --- زر الطوارئ --- */
         .panic-btn {
-            position: fixed; top: 10px; left: 10px;
+            position: fixed; top: 15px; left: 15px;
             width: 40px; height: 40px; border-radius: 50%;
             background: rgba(255,255,255,0.1); border: none;
             font-size: 1.2rem; cursor: pointer; z-index: 999;
         }
-
-        /* --- شاشة الساعة (الطوارئ) --- */
-        #safe-screen {
-            background: black; z-index: 1000; justify-content: center;
-        }
-        .clock { font-size: 4rem; color: #333; font-family: monospace; }
-
-        /* --- الخربشة --- */
-        canvas { touch-action: none; }
+        #safe-screen { background: black; z-index: 1000; justify-content: center; }
+        .clock { font-size: 5rem; color: #333; font-family: monospace; font-weight: bold; }
 
     </style>
 </head>
 <body>
 
-    <div class="bg-anim"></div>
-
     <button class="panic-btn" onclick="togglePanic()">🔒</button>
 
     <div id="safe-screen" class="screen">
         <div class="clock" id="clock-display">00:00</div>
-        <p style="color:#222">Tap 3 times to exit</p>
+        <p style="color:#222; margin-top: 10px;">Tap screen 3 times to unlock</p>
     </div>
 
     <div id="login" class="screen active" style="justify-content: center;">
         <div class="login-box">
-            <div style="font-size: 3rem;">🔥</div>
+            <div style="font-size: 3rem; margin-bottom: 10px;">🔥</div>
             <div class="logo-text">INFINITY</div>
             <p class="sub-headline">
                 لأن الروتين هو عدو المتعة..<br>
-                جمعنا ليكي 5 تجارب ستغير شكل علاقتكم للأبد.
-                <br><span style="color:var(--primary); font-size:0.8rem;">(نسخة خاصة للمتزوجين فقط)</span>
+                استعدوا لتجربة ستغير كل شيء.
+                <br><span style="color:var(--primary); font-size:0.75rem;">(للمتزوجين فقط +18)</span>
             </p>
             
             <input type="password" id="pass" class="input-vip" placeholder="Enter Code">
-            <button class="btn-gold" onclick="login()">Unlock Experience 🔓</button>
-            <p id="error" style="color:red; display:none; margin-top:10px;">الكود خاطئ</p>
+            <button class="btn-gold" onclick="login()">دخول للباقة 🔓</button>
+            <p id="error" style="color:red; display:none; margin-top:15px; font-weight:bold;">الكود خاطئ</p>
         </div>
     </div>
 
     <div id="dashboard" class="screen">
-        <h2 style="color:var(--primary); margin-bottom:5px;">اختر التجربة 💋</h2>
-        <p style="color:#666; font-size:0.9rem; margin-top:0;">اضغط على اللعبة للبدء</p>
+        <h2 style="color:var(--primary); margin-bottom:5px;">قائمة التجارب 💋</h2>
+        <p style="color:#888; font-size:0.9rem; margin-top:0;">اضغط على اللعبة للبدء</p>
         
         <div class="games-grid">
             <div class="game-item" onclick="startGame('game1')">
-                <img src="https://images.unsplash.com/photo-1510946258079-c56434444585?q=80&w=400" alt="Truth">
+                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=500" alt="Truth">
                 <div class="game-label">
                     <div class="g-title">1. شوق أو ذوق</div>
-                    <div class="g-sub">جرأة بلا حدود</div>
+                    <div class="g-sub">جرأة وصراحة بلا حدود</div>
                 </div>
             </div>
             <div class="game-item" onclick="startGame('game2')">
-                <img src="https://images.unsplash.com/photo-1542125218-c26cb7507301?q=80&w=400" alt="Action">
+                <img src="https://images.unsplash.com/photo-1517849845537-4d257902454a?auto=format&fit=crop&q=80&w=500" alt="Action">
                 <div class="game-label">
                     <div class="g-title">2. أوضاع وأحكام</div>
-                    <div class="g-sub">تحديات جسدية</div>
+                    <div class="g-sub">تحديات جسدية ساخنة</div>
                 </div>
             </div>
             <div class="game-item" onclick="startGame('game3')">
-                <img src="https://images.unsplash.com/photo-1616091093729-c0461757849e?q=80&w=400" alt="Kiss">
+                <img src="https://images.unsplash.com/photo-1518105570919-e342af1a8275?auto=format&fit=crop&q=80&w=500" alt="Kiss">
                 <div class="game-label">
                     <div class="g-title">3. بوس أو دوس</div>
-                    <div class="g-sub">المخطئ يعاقب</div>
+                    <div class="g-sub">المخطئ ينفذ الحكم</div>
                 </div>
             </div>
             <div class="game-item" onclick="startGame('game4')">
-                <img src="https://images.unsplash.com/photo-1474552226712-ac0f0961a954?q=80&w=400" alt="Deep">
+                <img src="https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?auto=format&fit=crop&q=80&w=500" alt="Deep">
                 <div class="game-label">
                     <div class="g-title">4. هل لبيوح بـح</div>
-                    <div class="g-sub">حديث الروح</div>
+                    <div class="g-sub">حديث الروح والمشاعر</div>
                 </div>
             </div>
             <div class="game-item" onclick="initScratch()">
-                <img src="https://images.unsplash.com/photo-1513201099705-a9746e1e201f?q=80&w=400" alt="Win">
+                <img src="https://images.unsplash.com/photo-1513885535751-8b9238bd345a?auto=format&fit=crop&q=80&w=500" alt="Win">
                 <div class="game-label">
                     <div class="g-title">5. خربش واكسب</div>
-                    <div class="g-sub">جوائز فورية</div>
+                    <div class="g-sub">جوائز وهدايا فورية</div>
                 </div>
             </div>
         </div>
     </div>
 
     <div id="gameplay" class="screen">
-        <h2 id="g-header" style="color:var(--primary);"></h2>
+        <h2 id="g-header" style="color:var(--primary); margin-bottom: 20px;"></h2>
         
         <div class="card-stage">
             <div class="flipper" id="card-obj">
                 <div class="front">
                     <div style="font-size:4rem; color:var(--primary); opacity:0.8;">?</div>
-                    <p style="color:#666;">اضغط للكشف</p>
+                    <p style="color:#888; margin-top: 10px;">اضغط للكشف</p>
                 </div>
                 <div class="back">
                     <div id="q-text" class="text-content"></div>
@@ -267,103 +231,51 @@
             </div>
         </div>
 
-        <button class="btn-gold" style="width:200px; margin-top:30px;" onclick="flip()">كارت جديد 🎲</button>
-        <button style="background:none; border:none; color:#666; margin-top:15px; cursor:pointer;" onclick="goHome()">إنهاء اللعبة</button>
+        <button class="btn-gold" style="width:200px; margin-top:40px;" onclick="flip()">كارت جديد 🎲</button>
+        <button style="background:none; border:none; color:#888; margin-top:20px; cursor:pointer; font-size: 1rem;" onclick="goHome()">إنهاء اللعبة</button>
     </div>
 
-    <div id="scratch-area" class="screen">
-        <h2 style="color:var(--primary);">خربش واكسب 💅</h2>
-        <div style="position:relative; width:300px; height:150px; margin:auto; border:2px dashed var(--primary); border-radius:15px; overflow:hidden;">
-            <div id="prize-txt" style="position:absolute; width:100%; height:100%; display:flex; justify-content:center; align-items:center; background:white; color:black; font-size:1.5rem; font-weight:bold;"></div>
+    <div id="scratch-area" class="screen" style="justify-content: center;">
+        <h2 style="color:var(--primary); margin-bottom: 10px;">خربش واكسب 💅</h2>
+        <p style="color:#aaa; margin-bottom: 30px;">حرك صباعك عشان تكشف هديتك</p>
+        
+        <div style="position:relative; width:300px; height:150px; border:2px dashed var(--primary); border-radius:15px; overflow:hidden; background: #fff;">
+            <div id="prize-txt" style="position:absolute; width:100%; height:100%; display:flex; justify-content:center; align-items:center; background:white; color:black; font-size:1.4rem; font-weight:bold; padding: 10px; text-align: center;"></div>
             <canvas id="cvs" style="position:absolute; top:0; left:0;"></canvas>
         </div>
-        <button class="btn-gold" style="width:200px; margin-top:30px;" onclick="resetScratch()">جايزة تانية</button>
-        <button style="background:none; border:none; color:#666; margin-top:15px;" onclick="goHome()">رجوع</button>
+        
+        <button class="btn-gold" style="width:200px; margin-top:40px;" onclick="resetScratch()">جايزة تانية</button>
+        <button style="background:none; border:none; color:#888; margin-top:20px; font-size: 1rem;" onclick="goHome()">رجوع للقائمة</button>
     </div>
 
     <script>
-        // --- 1. نظام الصوتيات المدمج (Base64 Encoded Audio) ---
-        // تم ضغط الملفات لتكون صغيرة جداً وتعمل بدون تحميل
-        const sounds = {
-            click: new Audio("data:audio/wav;base64,UklGRi4AAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA="), // Placeholder tiny
-            // سنستخدم مولد صوتيات Web Audio API للأصوات الحقيقية لتقليل حجم الكود وتفادي مشاكل النسخ
-        };
-
-        // دالة لتوليد مؤثرات صوتية احترافية بالكود فقط (بدون ملفات)
-        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        
-        function playTone(type) {
-            if (audioCtx.state === 'suspended') audioCtx.resume();
-            const osc = audioCtx.createOscillator();
-            const gain = audioCtx.createGain();
-            osc.connect(gain);
-            gain.connect(audioCtx.destination);
-
-            if (type === 'click') {
-                // صوت نقر ناعم (Woodblock style)
-                osc.type = 'sine';
-                osc.frequency.setValueAtTime(800, audioCtx.currentTime);
-                osc.frequency.exponentialRampToValueAtTime(300, audioCtx.currentTime + 0.1);
-                gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
-                osc.start(); osc.stop(audioCtx.currentTime + 0.1);
-            } 
-            else if (type === 'flip') {
-                // صوت "ووش" هوائي (White Noise)
-                const bufferSize = audioCtx.sampleRate * 0.3; // 0.3 seconds
-                const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
-                const data = buffer.getChannelData(0);
-                for (let i = 0; i < bufferSize; i++) {
-                    data[i] = Math.random() * 2 - 1;
-                }
-                const noise = audioCtx.createBufferSource();
-                noise.buffer = buffer;
-                const noiseGain = audioCtx.createGain();
-                noise.connect(noiseGain);
-                noiseGain.connect(audioCtx.destination);
-                noiseGain.gain.setValueAtTime(0.5, audioCtx.currentTime);
-                noiseGain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
-                noise.start();
-            }
-            else if (type === 'win') {
-                // صوت فوز (Success Chime)
-                osc.type = 'triangle';
-                osc.frequency.setValueAtTime(500, audioCtx.currentTime);
-                osc.frequency.linearRampToValueAtTime(1000, audioCtx.currentTime + 0.1);
-                gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
-                gain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.5);
-                osc.start(); osc.stop(audioCtx.currentTime + 0.5);
-            }
-        }
-
-        // --- 2. البيانات ---
+        // --- البيانات (بدون صور داخلية، نص فقط) ---
         const db = {
-            game1: ["شوق: أوصف أكثر مكان يثيرك", "ذوق: بوسة لمدة دقيقة", "شوق: فانتزي نفسك نجربه", "ذوق: مساج للرقبة"],
-            game2: ["العلاقة أمام المرآة", "الطرف الآخر مسيطر", "ممنوع الكلام", "استخدم قطعة ثلج"],
-            game3: ["مين قال بحبك الأول؟", "أكثر أكلة بحبها؟", "تاريخ أول ديت؟", "مين بيصالح الأول؟"],
-            game4: ["أكثر موقف أثر فيك؟", "صفة تحبها فيا؟", "ذكرى لا تنسى؟", "أكثر شيء يخوفك؟"],
-            prizes: ["مساج كامل", "ليلة خاصة", "عشاء رومانسي", "إعفاء من الطلبات"]
+            game1: ["شوق: أوصف أكثر مكان في جسمي يثيرك", "ذوق: بوسة فرنسية لمدة دقيقة", "شوق: فانتزي نفسك نجربه سوا", "ذوق: مساج للرقبة لمدة دقيقتين", "شوق: امتى حسيت بالغيرة عليا؟", "ذوق: ارقص سلو بدون موسيقى"],
+            game2: ["العلاقة القادمة أمام المرآة", "الطرف الآخر مسيطر لمدة ساعة", "ممنوع الكلام لمدة 15 دقيقة", "استخدم قطعة ثلج على جسم شريكك", "مساج كامل بالزيت"],
+            game3: ["مين قال بحبك الأول؟ (الغلطان يبوس)", "أكثر أكلة بحبها؟", "تاريخ أول ديت؟", "مين بيصالح الأول؟", "لون لبسي المفضل؟"],
+            game4: ["أكثر موقف أثر فيك؟", "صفة تحبها فيا؟", "ذكرى لا تنسى بينا؟", "أكثر شيء يخوفك؟", "امتى حسيت اني جذاب جدا؟"],
+            prizes: ["مساج كامل 💆‍♂️", "ليلة خاصة جداً 🔥", "عشاء رومانسي 🕯️", "إعفاء من أي طلبات اليوم 😌", "شاور مشترك 🚿", "طلب مجاب فوراً ✨"]
         };
 
         let currentQ = [];
         let activeGame = "";
 
-        // --- 3. التنقل والمنطق ---
+        // --- التنقل (بدون صوت) ---
         function show(id) {
             document.querySelectorAll('.screen').forEach(s => {
                 s.classList.remove('active');
-                s.style.display = 'none';
+                setTimeout(() => { if(!s.classList.contains('active')) s.style.display = 'none'; }, 400);
             });
             const el = document.getElementById(id);
             el.style.display = 'flex';
             setTimeout(() => el.classList.add('active'), 10);
-            playTone('click');
         }
 
         function login() {
             const val = document.getElementById('pass').value;
+            // الأكواد: 1234 أو HOT
             if (val === "1234" || val === "HOT") {
-                playTone('win');
                 show('dashboard');
             } else {
                 document.getElementById('error').style.display = 'block';
@@ -373,14 +285,13 @@
         function startGame(g) {
             activeGame = g;
             currentQ = [...db[g]].sort(() => Math.random() - 0.5);
-            document.getElementById('g-header').innerText = (g === 'game1' ? "شوق أو ذوق" : "التحدي");
+            document.getElementById('g-header').innerText = (g === 'game1' ? "شوق أو ذوق" : g === 'game2' ? "أوضاع وأحكام" : "التحدي");
             document.getElementById('card-obj').classList.remove('flipped');
             show('gameplay');
         }
 
         function flip() {
             const card = document.getElementById('card-obj');
-            playTone('flip');
             
             if (card.classList.contains('flipped')) {
                 card.classList.remove('flipped');
@@ -398,12 +309,12 @@
 
         function goHome() { show('dashboard'); }
 
-        // --- 4. الخربشة (Scratch) ---
+        // --- الخربشة ---
         let cvs, ctx, drawing = false;
 
         function initScratch() {
             show('scratch-area');
-            resetScratch();
+            setTimeout(resetScratch, 100); // تأخير بسيط لضمان تحميل العنصر
         }
 
         function resetScratch() {
@@ -416,14 +327,14 @@
             document.getElementById('prize-txt').innerText = db.prizes[Math.floor(Math.random() * db.prizes.length)];
 
             ctx.globalCompositeOperation = 'source-over';
-            ctx.fillStyle = '#999';
+            ctx.fillStyle = '#bbb';
             ctx.fillRect(0, 0, cvs.width, cvs.height);
             
-            // نص فوق الغطاء
+            // نص الغطاء
             ctx.fillStyle = '#fff';
             ctx.font = 'bold 20px Cairo';
             ctx.textAlign = 'center';
-            ctx.fillText("امسح هنا", cvs.width/2, cvs.height/2 + 8);
+            ctx.fillText("اخربش هنا", cvs.width/2, cvs.height/2 + 8);
             
             ctx.globalCompositeOperation = 'destination-out';
         }
@@ -435,17 +346,19 @@
             const y = (e.touches ? e.touches[0].clientY : e.clientY) - rect.top;
             
             ctx.beginPath();
-            ctx.arc(x, y, 15, 0, Math.PI * 2);
+            ctx.arc(x, y, 20, 0, Math.PI * 2);
             ctx.fill();
-            playTone('click'); // صوت خربشة بسيط
         }
 
-        cvs = document.getElementById('cvs'); // Init reference
-        ['mousedown', 'touchstart'].forEach(e => document.addEventListener(e, () => drawing = true));
-        ['mouseup', 'touchend'].forEach(e => document.addEventListener(e, () => drawing = false));
-        ['mousemove', 'touchmove'].forEach(e => document.addEventListener(e, scratch));
+        // تهيئة أحداث اللمس (عشان تعمل وتشتغل صح بعد تحميل العنصر)
+        document.addEventListener('mousedown', () => drawing = true);
+        document.addEventListener('touchstart', () => drawing = true);
+        document.addEventListener('mouseup', () => drawing = false);
+        document.addEventListener('touchend', () => drawing = false);
+        document.addEventListener('mousemove', (e) => { if(cvs) scratch(e); });
+        document.addEventListener('touchmove', (e) => { if(cvs) scratch(e); });
 
-        // --- 5. نظام الطوارئ (Panic Mode) ---
+        // --- نظام الطوارئ ---
         let panic = false;
         function togglePanic() {
             panic = !panic;
@@ -454,14 +367,12 @@
             screen.classList.toggle('active', panic);
         }
 
-        // ساعة للطوارئ
         setInterval(() => {
             const d = new Date();
             document.getElementById('clock-display').innerText = 
                 d.getHours().toString().padStart(2,'0') + ':' + d.getMinutes().toString().padStart(2,'0');
         }, 1000);
 
-        // الخروج من الطوارئ بـ 3 ضغطات
         let taps = 0;
         document.getElementById('safe-screen').addEventListener('click', () => {
             taps++;
