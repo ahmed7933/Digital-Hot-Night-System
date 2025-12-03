@@ -28,31 +28,32 @@
             display: none; width: 100%; height: 100%;
             position: relative; z-index: 2;
             flex-direction: column; align-items: center;
-            padding: 15px; overflow-y: auto;
+            padding: 10px; overflow-y: auto;
             opacity: 0; transition: opacity 0.3s ease-in;
         }
         .screen.active { display: flex; opacity: 1; }
 
-        /* --- الشريط العلوي الجديد (Top Bar) --- */
+        /* --- الشريط العلوي (تم تقليل المسافات) --- */
         .top-nav {
             width: 100%; max-width: 500px;
             display: flex; justify-content: space-between; align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 5px; /* مسافة قليلة جداً */
             padding: 0 5px;
+            height: 50px;
         }
         .nav-title {
-            font-size: 1.2rem; font-weight: 800; color: var(--primary);
+            font-size: 1.1rem; font-weight: 800; color: var(--primary);
             margin: 0; text-align: center; flex-grow: 1;
         }
         .exit-btn {
             background: rgba(255,255,255,0.1); border: 1px solid #444;
-            color: #aaa; width: 40px; height: 40px; border-radius: 50%;
+            color: #aaa; width: 35px; height: 35px; border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
-            font-size: 1.2rem; cursor: pointer; transition: 0.3s;
-            flex-shrink: 0; /* منع الانكماش */
+            font-size: 1rem; cursor: pointer; transition: 0.3s;
+            flex-shrink: 0;
         }
         .exit-btn:active { background: var(--accent); color: white; border-color: var(--accent); }
-        .dummy-space { width: 40px; } /* لضبط التوسط */
+        .dummy-space { width: 35px; }
 
         /* --- صفحة الدخول --- */
         .login-box {
@@ -130,10 +131,11 @@
         .step-desc { color: #ccc; font-size: 0.8rem; line-height: 1.4; }
         .guide-intro { color: #aaa; text-align: center; font-size: 0.85rem; margin-bottom: 15px; line-height: 1.5; }
 
-        /* --- الكروت --- */
+        /* --- الكروت (تم ضبط المسافات) --- */
         .card-stage {
-            perspective: 1000px; width: 100%; max-width: 320px; height: 340px;
-            margin: auto; display: flex; align-items: center; justify-content: center;
+            perspective: 1000px; width: 100%; max-width: 320px; height: 320px;
+            margin: 5px auto; /* مسافة قليلة جداً من فوق وتحت */
+            display: flex; align-items: center; justify-content: center;
         }
         .flipper {
             position: relative; width: 100%; height: 100%;
@@ -288,7 +290,8 @@
         <div class="top-nav">
             <button class="exit-btn" onclick="goHome()">✕</button>
             <h2 id="g-header" class="nav-title"></h2>
-            <div class="dummy-space"></div> </div>
+            <div class="dummy-space"></div>
+        </div>
 
         <div class="card-stage">
             <div class="flipper" id="card-obj">
@@ -301,11 +304,11 @@
                 </div>
             </div>
         </div>
-        <button class="btn-gold" style="width:200px; margin-top:20px;" onclick="flip()">اسحب كارت</button>
+        <button class="btn-gold" style="width:200px; margin-top:10px;" onclick="flip()">اسحب كارت</button>
     </div>
 
     <div id="scratch-area" class="screen" style="justify-content: center;">
-        <div class="top-nav" style="margin-bottom: 30px;">
+        <div class="top-nav" style="margin-bottom: 20px;">
             <button class="exit-btn" onclick="goHome()">✕</button>
             <h2 class="nav-title" style="color:var(--primary);">خربش هديتك 🎁</h2>
             <div class="dummy-space"></div>
