@@ -308,7 +308,7 @@
                 <div style="font-size:0.7rem; color:#aaa;">الدور على</div>
                 <div id="catch-player" style="font-weight:bold; color:var(--primary);">الزوج 👨</div>
             </div>
-            <button class="dice-btn" id="catch-dice" onclick="rollCatchDice()">🎲</button>
+            <button class="dice-btn" id="catch-dice" onclick="rollCatchDice()" ontouchstart="rollCatchDice()">🎲</button>
             <div style="text-align:center;">
                 <div style="font-size:0.7rem; color:#aaa;">المكان</div>
                 <div id="catch-pos" style="font-weight:bold;">Start</div>
@@ -502,10 +502,24 @@
             const y = (e.touches?e.touches[0].clientY:e.clientY)-r.top;
             ctx.beginPath(); ctx.arc(x,y,20,0,Math.PI*2); ctx.fill();
         }
-        document.addEventListener('mousedown',()=>drawing=true); document.addEventListener('touchstart',()=>drawing=true);
-        document.addEventListener('mouseup',()=>drawing=false); document.addEventListener('touchend',()=>drawing=false);
-        document.addEventListener('mousemove',(e)=>{if(cvs)scratch(e)}); document.addEventListener('touchmove',(e)=>{if(cvs)scratch(e)});
-
+        // --- تصحيح منطق اللمس (عشان ميعطلش الزراير) ---
+        
+        // تشغيل الرسم فقط لو اللمسة جوه الكانفاس
+        document.addEventListener('mousedown', (e) => { if(e.target.id === 'cvs') drawing = true; });
+        document.addEventListener('touchstart', (e) => { if(e.target.id === 'cvs') drawing = true; });
+        
+        // وقف الرسم لما تسيب الشاشة
+        document.addEventListener('mouseup', () => drawing = false);
+        document.addEventListener('touchend', () => drawing = false);
+        
+        // حركة الرسم
+        document.addEventListener('mousemove', (e) => { if(cvs && drawing) scratch(e); });
+        document.addEventListener('touchmove', (e) => { 
+            if(cvs && drawing && e.target.id === 'cvs') {
+                e.preventDefault(); // منع السكرول أثناء الخربشة بس
+                scratch(e);
+            }
+        }, { passive: false });
         // ==========================================
         // 5. CATCH ME LOGIC
         // ==========================================
@@ -739,5 +753,6 @@
     </script>
 </body>
 </html>
+
 
 
