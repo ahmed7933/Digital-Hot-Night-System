@@ -28,7 +28,7 @@
             display: none; width: 100%; height: 100%;
             position: relative; z-index: 2;
             flex-direction: column; align-items: center;
-            padding: 20px; /* زيادة الحواف */
+            padding: 15px;
             overflow-y: auto;
             opacity: 0; transition: opacity 0.3s ease-in;
         }
@@ -38,24 +38,24 @@
         .top-nav {
             width: 100%; max-width: 500px;
             display: flex; justify-content: space-between; align-items: center;
-            margin-bottom: 25px; /* زيادة المسافة تحت العنوان */
+            margin-bottom: 15px;
             padding: 0 5px;
-            height: 50px;
+            height: 40px;
             flex-shrink: 0;
         }
         .nav-title {
-            font-size: 1.2rem; font-weight: 800; color: var(--primary);
+            font-size: 1.1rem; font-weight: 800; color: var(--primary);
             margin: 0; text-align: center; flex-grow: 1;
         }
         .exit-btn {
             background: rgba(255,255,255,0.1); border: 1px solid #444;
-            color: #aaa; width: 40px; height: 40px; border-radius: 50%;
+            color: #aaa; width: 35px; height: 35px; border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
-            font-size: 1.1rem; cursor: pointer; transition: 0.3s;
+            font-size: 1rem; cursor: pointer; transition: 0.3s;
             flex-shrink: 0;
         }
         .exit-btn:active { background: var(--accent); color: white; border-color: var(--accent); }
-        .dummy-space { width: 40px; }
+        .dummy-space { width: 35px; }
 
         /* --- صفحة الدخول --- */
         .login-box {
@@ -80,36 +80,40 @@
         }
         @keyframes shine { to { background-position: 200% center; } }
 
-        /* --- القائمة الرئيسية --- */
+        /* --- القائمة الرئيسية (تعديل الشبكة لتكون مربعين في الصف) --- */
         .dashboard-header {
             width: 100%; max-width: 500px;
             display: flex; justify-content: space-between; align-items: center;
-            margin-bottom: 15px;
+            margin-bottom: 15px; flex-shrink: 0;
         }
         .guide-btn {
             background: rgba(255,255,255,0.1); border: 1px solid var(--primary);
-            color: var(--primary); padding: 8px 15px; border-radius: 20px;
-            font-size: 0.85rem; cursor: pointer; display: flex; align-items: center; gap: 5px;
+            color: var(--primary); padding: 6px 12px; border-radius: 20px;
+            font-size: 0.8rem; cursor: pointer; display: flex; align-items: center; gap: 5px;
             transition: 0.3s;
         }
         .guide-btn:active { background: var(--primary); color: black; }
 
         .games-grid {
-            display: grid; grid-template-columns: 1fr; gap: 15px; /* زيادة الفراغات بين الأزرار */
-            width: 100%; max-width: 500px; padding-bottom: 60px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* عمودين */
+            gap: 10px; /* مسافة بين المربعات */
+            width: 100%; max-width: 500px;
+            padding-bottom: 20px;
         }
         .game-item {
-            position: relative; height: 105px; border-radius: 18px;
-            overflow: hidden; cursor: pointer; border: 1px solid #333;
+            position: relative;
+            aspect-ratio: 1 / 1; /* يجعل العنصر مربعاً تماماً */
+            border-radius: 18px; overflow: hidden; cursor: pointer; border: 1px solid #333;
         }
-        .game-item img { width: 100%; height: 100%; object-fit: cover; opacity: 0.5; transition: 0.5s; }
-        .game-item:active img { opacity: 0.3; transform: scale(1.05); }
+        .game-item img { width: 100%; height: 100%; object-fit: cover; opacity: 0.6; transition: 0.5s; filter: contrast(1.1) saturate(1.1); }
+        .game-item:active img { opacity: 0.4; transform: scale(1.05); }
         .game-label {
-            position: absolute; bottom: 0; left: 0; width: 100%; padding: 10px 15px;
-            background: linear-gradient(to top, black, transparent); text-align: right;
+            position: absolute; bottom: 0; left: 0; width: 100%; padding: 10px;
+            background: linear-gradient(to top, black, rgba(0,0,0,0.5)); text-align: center; /* توسيط النص */
         }
-        .g-title { font-size: 1.15rem; font-weight: 800; color: white; }
-        .g-sub { font-size: 0.75rem; color: var(--primary); font-weight: bold; }
+        .g-title { font-size: 1rem; font-weight: 800; color: white; margin-bottom: 2px;}
+        .g-sub { font-size: 0.7rem; color: var(--primary); font-weight: bold; }
 
         /* --- نافذة الدليل --- */
         .modal-glass {
@@ -128,15 +132,15 @@
             background: rgba(255,255,255,0.05); border-right: 3px solid var(--primary);
             padding: 12px; margin-bottom: 12px; border-radius: 8px;
         }
-        .step-head { color: var(--primary); font-weight: bold; font-size: 1rem; display: flex; justify-content: space-between; margin-bottom: 8px;}
+        .step-head { color: var(--primary); font-weight: bold; font-size: 0.95rem; display: flex; justify-content: space-between; margin-bottom: 5px;}
         .step-count { background: var(--primary); color: black; font-size: 0.7rem; padding: 3px 8px; border-radius: 8px; height: fit-content; font-weight: bold; }
-        .step-desc { color: #ccc; font-size: 0.85rem; line-height: 1.5; }
+        .step-desc { color: #ccc; font-size: 0.8rem; line-height: 1.5; }
         .guide-intro { color: #aaa; text-align: center; font-size: 0.9rem; margin-bottom: 20px; line-height: 1.6; }
 
-        /* --- الكروت (مسافات مريحة) --- */
+        /* --- الكروت --- */
         .card-stage {
             perspective: 1000px; width: 100%; max-width: 320px; height: 320px;
-            margin: 20px auto; /* مسافة مريحة من فوق وتحت */
+            margin: 20px auto;
             display: flex; align-items: center; justify-content: center;
         }
         .flipper {
@@ -249,45 +253,45 @@
         
         <div class="games-grid">
             <div class="game-item" onclick="startGame('stage1')">
-                <img src="https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?q=80&w=400" alt="Fun">
+                <img src="https://images.unsplash.com/photo-1516575334481-f85287c2c81d?q=80&w=400&fit=crop" alt="Fun">
                 <div class="game-label">
                     <div class="g-title">1. فك الشفرة</div>
-                    <div class="g-sub">ضحك وذكريات (Ice Breaking)</div>
+                    <div class="g-sub">ضحك وذكريات</div>
                 </div>
             </div>
             <div class="game-item" onclick="startGame('stage2')">
-                <img src="https://images.unsplash.com/photo-1518568814500-bf0f8d125f46?q=80&w=400" alt="Love">
+                <img src="https://images.unsplash.com/photo-1621780030440-71c9ace77e05?q=80&w=400&fit=crop" alt="Love">
                 <div class="game-label">
                     <div class="g-title">2. كلمة سر</div>
-                    <div class="g-sub">رومانسية ومشاعر (Deep)</div>
+                    <div class="g-sub">رومانسية ومشاعر</div>
                 </div>
             </div>
             <div class="game-item" onclick="startGame('stage3')">
-                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=400" alt="Touch">
+                <img src="https://images.unsplash.com/photo-1596131398989-6256eb88c0b7?q=80&w=400&fit=crop" alt="Touch">
                 <div class="game-label">
                     <div class="g-title">3. لمسة وهمسة</div>
                     <div class="g-sub">إثارة حسية (Foreplay)</div>
                 </div>
             </div>
-            <div class="game-item" onclick="startGame('stage4')">
-                <img src="https://images.unsplash.com/photo-1507120410856-1f35574c3b45?q=80&w=400" alt="Hot">
+            <div class="game-item" onclick="startGame('stage4')" style="border-color: var(--accent);">
+                <img src="https://images.unsplash.com/photo-1496345962527-29757c3a3d94?q=80&w=400&fit=crop" alt="Hot">
                 <div class="game-label">
-                    <div class="g-title">4. المنطقة المحظورة</div>
+                    <div class="g-title" style="color:var(--accent)">4. المنطقة المحظورة</div>
                     <div class="g-sub">تحديات جريئة (Hardcore)</div>
                 </div>
             </div>
             <div class="game-item" onclick="initScratch()">
-                <img src="https://images.unsplash.com/photo-1549465220-1a8b9238cd48?q=80&w=400" alt="Gift">
+                <img src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=400&fit=crop" alt="Gift">
                 <div class="game-label">
                     <div class="g-title">5. خربش واكسب</div>
-                    <div class="g-sub">جوائز الدلع (Rewards)</div>
+                    <div class="g-sub">جوائز الدلع</div>
                 </div>
             </div>
-            <div class="game-item" onclick="startRoleplay()" style="border-color: var(--accent);">
-                <img src="https://images.unsplash.com/photo-1478720568477-152d9b164e63?q=80&w=400" alt="Roleplay">
+            <div class="game-item" onclick="startRoleplay()">
+                <img src="https://images.unsplash.com/photo-1469571486292-0ba58a3f068b?q=80&w=400&fit=crop" alt="Roleplay">
                 <div class="game-label">
-                    <div class="g-title" style="color:var(--accent)">6. مسرح الأحلام</div>
-                    <div class="g-sub">سيناريوهات وتمثيل (Roleplay)</div>
+                    <div class="g-title">6. مسرح الأحلام</div>
+                    <div class="g-sub">سيناريوهات وتمثيل</div>
                 </div>
             </div>
         </div>
