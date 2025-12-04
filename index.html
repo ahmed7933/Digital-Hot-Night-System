@@ -12,6 +12,7 @@
             --blue: #00bfff;
             --green: #2ecc71;
             --bg: #050505;
+            --pink: #ff00cc;
         }
 
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; user-select: none; outline: none; }
@@ -86,6 +87,7 @@
         .square { width: 50px; height: 50px; border-radius: 8px; display: flex; justify-content: center; align-items: center; font-weight: bold; position: relative; border: 1px solid rgba(255,255,255,0.1); }
         .blue-zone { background: linear-gradient(135deg, #00bfff, #0077be); }
         .purple-zone { background: linear-gradient(135deg, #8a2be2, #4b0082); }
+        .pink-zone { background: linear-gradient(135deg, #ff00cc, #99007a); }
         .red-zone { background: linear-gradient(135deg, #ff0055, #990033); }
         .finish-zone { background: linear-gradient(135deg, var(--primary), #b8860b); color: black; }
         .player-token { width: 18px; height: 18px; border-radius: 50%; position: absolute; border: 2px solid white; z-index: 5; transition: all 0.5s; }
@@ -352,46 +354,69 @@
             roleplays: [{ chars: "الدكتور والمريضة", wear: "بالطو", plot: "كشف شامل." }]
         };
 
+        // 1. قاعدة بيانات لعبة Catch Me (50 مربع - 4 مراحل)
         const catchDB = [
             { type: "start", text: "البداية", icon: "🏁", desc: "نقطة الانطلاق" }, // 0
-            
-            // المنطقة الزرقاء (1-10)
-            { type: "blue", text: "بوسة", desc: "بوسة رقيقة على الشفايف", icon: "💋" }, // 1
-            { type: "blue", text: "همسة", desc: "همس في الودن بكلمة بحبك", icon: "👂" }, // 2
-            { type: "blue", text: "حضن", desc: "حضن قوي لمدة دقيقة", icon: "🫂" }, // 3
-            { type: "blue", text: "مساج", desc: "مساج للرقبة لمدة دقيقتين", icon: "💆" }, // 4
-            { type: "blue", text: "نظرة", desc: "تواصل بالعيون لمدة 30 ثانية", icon: "👀" }, // 5
-            { type: "blue", text: "خلع", desc: "اخلع قطعة واحدة من ملابسك", icon: "👕" }, // 6
-            { type: "blue", text: "رقص", desc: "رقصة سلو بدون موسيقى", icon: "💃" }, // 7
-            { type: "blue", text: "كشف", desc: "اكشفي جزء من جسمك (اختياري)", icon: "🫣" }, // 8
-            { type: "blue", text: "لمس", desc: "مشي ايدك على جسم الشريك", icon: "🖐️" }, // 9
-            { type: "blue", text: "استراحة", desc: "بوسة على الجبين", icon: "😌" }, // 10
 
-            // المنطقة البنفسجية (11-20)
-            { type: "purple", text: "غمغم", desc: "اربط عين شريكك وبوسه", icon: "🕶️" }, // 11
-            { type: "purple", text: "ثلج", desc: "مشي تلجة على جسم شريكك", icon: "🧊" }, // 12
-            { type: "purple", text: "ريشة", desc: "استخدم اطراف صوابعك للمداعبة", icon: "🪶" }, // 13
-            { type: "purple", text: "69", desc: "وضع 69 لمدة دقيقة", icon: "♋" }, // 14
-            { type: "purple", text: "عض", desc: "عضة خفيفة (Love Bite)", icon: "🧛" }, // 15
-            { type: "purple", text: "سيطرة", desc: "الطرف التاني يؤمرك لمدة 5 دقايق", icon: "👑" }, // 16
-            { type: "purple", text: "لعق", desc: "استخدم لسانك في مكان حساس", icon: "👅" }, // 17
-            { type: "purple", text: "تحت الغطا", desc: "مداعبة تحت البطانية", icon: "🛌" }, // 18
-            { type: "purple", text: "صورة", desc: "خدوا صورة سيلفي مثيرة للذكرى", icon: "📸" }, // 19
-            { type: "purple", text: "فانتزي", desc: "احكوا خيال جنسي نفسكوا فيه", icon: "💭" }, // 20
+            // --- المرحلة 1: التسخين والمداعبة (1-12) --- (لون أزرق)
+            { type: "blue", text: "نظرة", desc: "تواصل بالعيون لمدة 30 ثانية", icon: "👀" },
+            { type: "blue", text: "بوسة", desc: "بوسة رقيقة على الشفايف", icon: "💋" },
+            { type: "blue", text: "همسة", desc: "همس في الودن بكلمة بحبك", icon: "👂" },
+            { type: "blue", text: "حضن", desc: "حضن قوي لمدة دقيقة", icon: "🫂" },
+            { type: "blue", text: "مساج", desc: "مساج للرقبة لمدة دقيقتين", icon: "💆" },
+            { type: "blue", text: "كشف", desc: "اكشفي جزء من جسمك (اختياري)", icon: "🫣" },
+            { type: "blue", text: "رقص", desc: "رقصة سلو بدون موسيقى", icon: "💃" },
+            { type: "blue", text: "لمس", desc: "مشي ايدك على جسم الشريك", icon: "🖐️" },
+            { type: "blue", text: "مدح", desc: "قول 3 صفات حلوة في شريكك", icon: "🗣️" },
+            { type: "blue", text: "خلع", desc: "اخلع قطعة واحدة من ملابسك", icon: "👕" },
+            { type: "blue", text: "قبلة يد", desc: "بوس باطن ايد شريكك", icon: "🤝" },
+            { type: "blue", text: "استراحة", desc: "بوسة على الجبين", icon: "😌" },
 
-            // المنطقة الحمراء (21-29)
-            { type: "red", text: "2 Minutes", desc: "وضع الدوجي لمدة دقيقتين", icon: "🐕" }, // 21
-            { type: "red", text: "Oral", desc: "جنس فموي للطرف الآخر", icon: "🍭" }, // 22
-            { type: "red", text: "وضع X", desc: "جربوا وضع جديد (الكرسي)", icon: "🪑" }, // 23
-            { type: "red", text: "تعري", desc: "تعري كامل (Striptease)", icon: "👙" }, // 24
-            { type: "red", text: "نشوة", desc: "وصل شريكك للنشوة بيدك", icon: "👋" }, // 25
-            { type: "red", text: "على الواقف", desc: "علاقة سريعة وقوفاً", icon: "🧍" }, // 26
-            { type: "red", text: "مرايا", desc: "علاقة أمام المرايا", icon: "🪞" }, // 27
-            { type: "red", text: "قيود", desc: "ربط اليدين (Bondage Light)", icon: "🔗" }, // 28
-            { type: "red", text: "حرية", desc: "افعل ما يحلو لك بشريكك", icon: "😈" }, // 29
-            
-            // النهاية (30)
-            { type: "finish", text: "النهاية", desc: "مبروك! علاقة كاملة الليلة 🔥", icon: "🎉" } // 30
+            // --- المرحلة 2: الإثارة الحسية (13-25) --- (لون بنفسجي)
+            { type: "purple", text: "غمغم", desc: "اربط عين شريكك وبوسه", icon: "🕶️" },
+            { type: "purple", text: "ثلج", desc: "مشي تلجة على جسم شريكك", icon: "🧊" },
+            { type: "purple", text: "ريشة", desc: "استخدم اطراف صوابعك للمداعبة", icon: "🪶" },
+            { type: "purple", text: "عض", desc: "عضة خفيفة (Love Bite)", icon: "🧛" },
+            { type: "purple", text: "لعق", desc: "استخدم لسانك في مكان حساس", icon: "👅" },
+            { type: "purple", text: "تحت الغطا", desc: "مداعبة تحت البطانية", icon: "🛌" },
+            { type: "purple", text: "صورة", desc: "خدوا صورة سيلفي مثيرة للذكرى", icon: "📸" },
+            { type: "purple", text: "فانتزي", desc: "احكوا خيال جنسي نفسكوا فيه", icon: "💭" },
+            { type: "purple", text: "مساج زيت", desc: "مساج للظهر بالزيت", icon: "🧴" },
+            { type: "purple", text: "نفس", desc: "تنفس في ودن شريكك ببطء", icon: "🌬️" },
+            { type: "purple", text: "شفايف", desc: "بوس كل حتة ما عدا الشفايف", icon: "🚫" },
+            { type: "purple", text: "تحكم", desc: "الطرف التاني يؤمرك لمدة 3 دقايق", icon: "👑" },
+            { type: "purple", text: "جرأة", desc: "المس منطقة ممنوعة", icon: "🔞" },
+
+            // --- المرحلة 3: المتعة والتمهيد (26-37) --- (لون وردي - جديد)
+            { type: "pink", text: "69", desc: "وضع 69 لمدة دقيقة", icon: "♋" },
+            { type: "pink", text: "Oral", desc: "جنس فموي (خفيف)", icon: "🍭" },
+            { type: "pink", text: "تعري", desc: "تعري كامل (Striptease)", icon: "👙" },
+            { type: "pink", text: "نشوة", desc: "وصل شريكك للنشوة بيدك", icon: "👋" },
+            { type: "pink", text: "استحمام", desc: "ادخلوا خدوا شاور سوا", icon: "🚿" },
+            { type: "pink", text: "مرايا", desc: "مداعبة أمام المرايا", icon: "🪞" },
+            { type: "pink", text: "قيود", desc: "ربط اليدين (Bondage Light)", icon: "🔗" },
+            { type: "pink", text: "جلوس", desc: "اجلس على شريكك (أو العكس)", icon: "🪑" },
+            { type: "pink", text: "تذوق", desc: "استخدم شيكولاتة أو كريمة على الجسم", icon: "🍫" },
+            { type: "pink", text: "اهتزاز", desc: "استخدم وضع الهزاز (موبايل) للمداعبة", icon: "📳" },
+            { type: "pink", text: "تقليد", desc: "قلد حركة في فيلم رومانسي", icon: "🎬" },
+            { type: "pink", text: "همس قذر", desc: "Dirty Talk في الودن", icon: "💬" },
+
+            // --- المرحلة 4: الأكشن والنهاية (38-49) --- (لون أحمر)
+            { type: "red", text: "Doggy", desc: "وضع الدوجي لمدة دقيقتين", icon: "🐕" },
+            { type: "red", text: "عميق", desc: "جنس فموي كامل حتى النهاية", icon: "😮" },
+            { type: "red", text: "وضع X", desc: "جربوا وضع (اللوتس)", icon: "🧘" },
+            { type: "red", text: "على الواقف", desc: "علاقة سريعة وقوفاً", icon: "🧍" },
+            { type: "red", text: "حرية", desc: "افعل ما يحلو لك بشريكك", icon: "😈" },
+            { type: "red", text: "فارسة", desc: "الزوجة في الأعلى وتتحكم", icon: "🤠" },
+            { type: "red", text: "خلفي", desc: "وضع المعلقة (Spoon) وإيلاج", icon: "🥄" },
+            { type: "red", text: "تبادل", desc: "تبادلوا الأدوار (المسيطر والخاضع)", icon: "🔄" },
+            { type: "red", text: "حافة", desc: "علاقة على طرف السرير", icon: "🛏️" },
+            { type: "red", text: "عنيف", desc: "علاقة فيها قوة (شد شعر خفيف)", icon: "🦁" },
+            { type: "red", text: "صراخ", desc: "وصلها لأعلى صوت آهات", icon: "🔊" },
+            { type: "red", text: "استسلام", desc: "استسلم تماماً لرغبة شريكك", icon: "🏳️" },
+
+            // النهاية (50)
+            { type: "finish", text: "النهاية", desc: "مبروك! علاقة كاملة الليلة 🔥", icon: "🎉" }
         ];
 
         // --- بيانات عجلة الحظ (16 مثلث، أيقونات فقط) ---
@@ -535,20 +560,22 @@
             if(!boardCreated) { createCatchBoard(); boardCreated = true; }
         }
 
-        function createCatchBoard() {
+function createCatchBoard() {
             const board = document.getElementById('board'); 
             board.innerHTML = "";
             let row = document.createElement('div'); row.className = 'row';
             
-            // بناء اللوحة من 30 لـ 0
-            for (let i = 30; i >= 0; i--) {
-                // حماية من الأخطاء: لو الرقم مش موجود هات آخر واحد
+            // بناء اللوحة من 50 لـ 0
+            for (let i = 50; i >= 0; i--) {
                 const sqData = catchDB[i] || catchDB[catchDB.length-1];
                 
-                let z = 'red-zone';
-                if(i==0 || i==30) z='finish-zone'; 
-                else if(i<=10) z='blue-zone'; 
-                else if(i<=20) z='purple-zone';
+                let z = '';
+                if(i === 0) z = 'finish-zone'; // Start styling (using finish class for distinction)
+                else if(i === 50) z = 'finish-zone';
+                else if(i <= 12) z = 'blue-zone';    // مرحلة 1
+                else if(i <= 25) z = 'purple-zone';  // مرحلة 2
+                else if(i <= 37) z = 'pink-zone';    // مرحلة 3 (جديدة)
+                else z = 'red-zone';                 // مرحلة 4
 
                 const sq = document.createElement('div');
                 sq.className = `square ${z}`; 
@@ -556,7 +583,8 @@
                 sq.innerHTML = i===0 ? "Start" : i;
                 row.appendChild(sq);
 
-                if((30-i+1)%5===0 || i===0) { 
+                // كل 5 مربعات اقفل الصف (عشان الشبكة تكون متناسقة 5x10)
+                if((50-i+1) % 5 === 0 || i === 0) { 
                     board.appendChild(row); 
                     row = document.createElement('div'); 
                     row.className = 'row'; 
@@ -595,13 +623,13 @@
             let moved = 0;
             
             const intv = setInterval(() => {
-                if(p.pos < 30) { 
+                if(p.pos < 50) { // التغيير هنا لـ 50
                     p.pos++; 
                     updateTokens(); 
                     moved++; 
                 }
                 
-                if(moved >= steps || p.pos >= 30) {
+                if(moved >= steps || p.pos >= 50) {
                     clearInterval(intv);
                     setTimeout(() => showCatchChallenge(p.pos), 500);
                 }
@@ -638,8 +666,8 @@
 
         function closeCatchModal() {
             document.getElementById('catch-modal').style.display = 'none';
-            // لو وصل للنهاية
-            if(catchPlayers[cTurn].pos >= 30) {
+            // لو وصل للنهاية (50)
+            if(catchPlayers[cTurn].pos >= 50) {
                 alert(`مبروك! ${catchPlayers[cTurn].name} كسب الليلة! 🎉`);
                 catchPlayers[0].pos=0; 
                 catchPlayers[1].pos=0; 
@@ -753,6 +781,7 @@
     </script>
 </body>
 </html>
+
 
 
 
