@@ -687,18 +687,26 @@ function createCatchBoard() {
         }
 
         function rollCatchDice() {
-            const btn = document.getElementById('catch-dice'); // ID الجديد
-            if(btn.classList.contains('rolling')) return;
+            const btn = document.getElementById('dice');
             
+            // لو الزرار لسه بيتهز، متعملش حاجة (منع الدبل كليك)
+            if(btn.classList.contains('rolling')) return;
+
+            // --- التعديل السحري هنا ---
+            // أول ما ندوس، نرجع الشكل لأيقونة النرد فوراً عشان الرقم القديم يختفي
+            btn.innerText = "🎲"; 
+
+            // نبدأ الهز
             btn.classList.add('rolling');
+            
+            // بعد ما الهز يخلص (600 مللي ثانية)
             setTimeout(() => {
                 const r = Math.floor(Math.random()*6)+1;
-                btn.innerText = r; 
-                btn.classList.remove('rolling');
-                moveCatchPlayer(r);
+                btn.innerText = r; // إظهار الرقم الجديد
+                btn.classList.remove('rolling'); // وقف الهز
+                moveCatchPlayer(r); // حرك اللاعب
             }, 600);
         }
-
         function moveCatchPlayer(steps) {
             const p = catchPlayers[cTurn]; 
             let moved = 0;
@@ -862,6 +870,7 @@ function createCatchBoard() {
     </script>
 </body>
 </html>
+
 
 
 
