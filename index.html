@@ -687,13 +687,12 @@ function createCatchBoard() {
         }
 
         function rollCatchDice() {
-            const btn = document.getElementById('dice');
+            const btn = document.getElementById('catch-dice'); // ده الـ ID الصح
             
             // لو الزرار لسه بيتهز، متعملش حاجة (منع الدبل كليك)
             if(btn.classList.contains('rolling')) return;
 
-            // --- التعديل السحري هنا ---
-            // أول ما ندوس، نرجع الشكل لأيقونة النرد فوراً عشان الرقم القديم يختفي
+            // --- التعديل: إرجاع الشكل لأيقونة النرد فوراً ---
             btn.innerText = "🎲"; 
 
             // نبدأ الهز
@@ -707,6 +706,7 @@ function createCatchBoard() {
                 moveCatchPlayer(r); // حرك اللاعب
             }, 600);
         }
+        
         function moveCatchPlayer(steps) {
             const p = catchPlayers[cTurn]; 
             let moved = 0;
@@ -870,6 +870,7 @@ function createCatchBoard() {
     </script>
 </body>
 </html>
+
 
 
 
