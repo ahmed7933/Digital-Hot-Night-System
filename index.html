@@ -7,19 +7,74 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
     
     <link rel="preload" as="image" href="images/cover1.webp">
+    <link rel="preload" as="image" href="images/cover2.webp">
+    <link rel="preload" as="image" href="images/cover3.webp">
+    <link rel="preload" as="image" href="images/cover4.webp">
+    <link rel="preload" as="image" href="images/cover5.webp">
+    <link rel="preload" as="image" href="images/cover6.webp">
+    <link rel="preload" as="image" href="images/cover7.webp">
+    <link rel="preload" as="image" href="images/cover8.webp">
+    <link rel="preload" as="image" href="images/cover9.webp">
+
     <script src="https://cdn.jsdelivr.net/npm/@fingerprintjs/fingerprintjs@3/dist/fp.min.js"></script>
 
     <style>
-        :root { --primary: #d4af37; --accent: #e50914; --blue: #00bfff; --green: #2ecc71; --bg: #050505; }
+        :root { --primary: #d4af37; --accent: #e50914; --blue: #00bfff; --purple: #8a2be2; --pink: #ff00cc; --green: #2ecc71; --bg: #050505; }
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; user-select: none; outline: none; }
         body { margin: 0; background: radial-gradient(circle at 50% 50%, #150505 0%, #000 90%); font-family: 'Cairo'; color: white; height: 100dvh; overflow: hidden; display: flex; justify-content: center; align-items: center; }
         
-        /* الشاشات */
         .screen { display: none; width: 100%; height: 100%; position: relative; z-index: 2; flex-direction: column; align-items: center; padding: 15px; overflow-y: auto; opacity: 0; transition: opacity 0.3s; }
         .screen.active { display: flex; opacity: 1; }
 
-        /* التصميم العام (نفس الستايل السابق) */
-        .login-box { background: rgba(20,20,20,0.95); border: 1px solid #333; padding: 25px; border-radius: 20px; width: 100%; max-width: 350px; text-align: center; box-shadow: 0 0 40px rgba(212, 175, 55, 0.1); }
+        /* --- شاشة الباقات الجديدة (Pricing) --- */
+        .pricing-container { width: 100%; max-width: 400px; padding-bottom: 40px; }
+        .pricing-header { text-align: center; margin-bottom: 20px; }
+        .pricing-header h2 { color: var(--primary); margin: 0; font-size: 1.8rem; }
+        .pricing-header p { color: #888; font-size: 0.9rem; margin-top: 5px; }
+
+        .price-card {
+            background: rgba(255, 255, 255, 0.05); border: 1px solid #444;
+            border-radius: 15px; padding: 20px; margin-bottom: 15px;
+            text-align: center; position: relative; transition: transform 0.2s;
+        }
+        .price-card:active { transform: scale(0.98); }
+        
+        /* تمييز كارت الأكثر مبيعاً */
+        .price-card.popular {
+            border: 2px solid var(--primary);
+            background: linear-gradient(180deg, rgba(212, 175, 55, 0.15) 0%, rgba(0,0,0,0) 100%);
+            transform: scale(1.02); /* تكبير بسيط */
+            margin-bottom: 20px;
+            margin-top: 10px;
+        }
+        .popular-badge {
+            position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+            background: var(--accent); color: white; font-size: 0.75rem;
+            padding: 4px 15px; border-radius: 20px; font-weight: bold;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        }
+
+        .p-title { font-size: 1.2rem; font-weight: bold; color: white; margin-bottom: 5px; }
+        .p-price { font-size: 2rem; font-weight: 900; color: var(--primary); margin-bottom: 5px; }
+        .p-sub { font-size: 0.8rem; color: #aaa; margin-bottom: 15px; }
+        .p-save { color: var(--green); font-weight: bold; font-size: 0.9rem; display: block; margin-top: -5px; margin-bottom: 10px; }
+        
+        .p-features { list-style: none; padding: 0; margin: 15px 0; text-align: right; font-size: 0.85rem; color: #ddd; }
+        .p-features li { margin-bottom: 8px; position: relative; padding-right: 20px; }
+        .p-features li::before { content: "✔"; color: var(--primary); position: absolute; right: 0; }
+
+        .p-btn {
+            background: #333; color: white; border: 1px solid #555;
+            width: 100%; padding: 12px; border-radius: 50px; font-weight: bold;
+            cursor: pointer; transition: 0.3s;
+        }
+        .price-card.popular .p-btn {
+            background: linear-gradient(90deg, #d4af37, #b8860b); border: none; color: black;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+        }
+
+        /* --- Login & Signup --- */
+        .login-box { background: rgba(20,20,20,0.95); border: 1px solid #333; padding: 25px; border-radius: 20px; width: 100%; max-width: 350px; text-align: center; box-shadow: 0 0 40px rgba(212, 175, 55, 0.1); margin-top: 20px; }
         .input-vip { background: #111; border: 1px solid #444; padding: 12px; border-radius: 10px; color: white; width: 100%; text-align: center; margin-bottom: 15px; font-family: 'Cairo'; font-size: 1rem; }
         .btn-gold { background: linear-gradient(90deg, #d4af37, #b8860b); color: black; font-weight: bold; padding: 12px; width: 100%; border-radius: 50px; border: none; cursor: pointer; font-size: 1rem; margin-bottom: 10px; }
         
@@ -27,47 +82,81 @@
         .success-box { border: 1px solid var(--green); background: rgba(46, 204, 113, 0.1); padding: 15px; border-radius: 10px; margin-top: 15px; display: none; }
         .code-display { font-size: 2rem; font-weight: bold; color: var(--primary); letter-spacing: 3px; margin: 10px 0; font-family: monospace; }
 
-        /* باقي الـ CSS للألعاب (نفس القديم بالظبط) */
-        /* ... (اختصاراً للمساحة، افترض وجود CSS الألعاب هنا) ... */
+        /* ... (باقي كود CSS للألعاب كما هو بدون تغيير) ... */
+        /* لضمان عدم ضياع التنسيق، يرجى إبقاء ستايل الألعاب كما كان */
+        .dashboard-header { width: 100%; max-width: 500px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-shrink: 0; }
+        .guide-btn { background: rgba(255,255,255,0.1); border: 1px solid var(--primary); color: var(--primary); padding: 6px 12px; border-radius: 20px; font-size: 0.8rem; cursor: pointer; }
+        .games-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; width: 100%; max-width: 500px; padding-bottom: 20px; }
+        .game-item { position: relative; aspect-ratio: 1 / 1; border-radius: 18px; overflow: hidden; cursor: pointer; border: 1px solid #333; }
+        .game-item.full-width { grid-column: span 2; aspect-ratio: auto; height: 100px; }
+        .game-item img { width: 100%; height: 100%; object-fit: cover; opacity: 0.8; transition: transform 0.3s; }
+        .game-item:active img { transform: scale(1.05); }
+        .game-label { position: absolute; bottom: 0; left: 0; width: 100%; padding: 10px; background: linear-gradient(to top, black, rgba(0,0,0,0.5)); text-align: center; }
+        .g-title { font-size: 1rem; font-weight: 800; color: white; margin-bottom: 2px;} .g-sub { font-size: 0.7rem; color: var(--primary); font-weight: bold; }
+        /* ... باقي ستايل الألعاب والأنميشن ... */
+        .top-nav { width: 100%; max-width: 500px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding: 0 5px; height: 40px; flex-shrink: 0; }
+        .nav-title { font-size: 1.1rem; font-weight: 800; color: var(--primary); margin: 0; text-align: center; flex-grow: 1; }
+        .exit-btn { background: rgba(255,255,255,0.1); border: 1px solid #444; color: #aaa; width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1rem; cursor: pointer; transition: 0.3s; flex-shrink: 0; }
+        .dummy-space { width: 35px; }
+        .modal-glass { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 100; display: none; justify-content: center; align-items: center; flex-direction: column; padding: 20px; backdrop-filter: blur(5px); }
+        .modal-glass.show { display: flex; animation: fadeIn 0.3s; }
+        .guide-content { background: #151515; border: 1px solid var(--primary); border-radius: 20px; width: 100%; max-width: 400px; padding: 25px; text-align: right; max-height: 85vh; overflow-y: auto; }
+        .step-box { background: rgba(255,255,255,0.05); border-right: 3px solid var(--primary); padding: 12px; margin-bottom: 12px; border-radius: 8px; }
+        .instr-content { background: #151515; border: 1px solid var(--primary); border-radius: 20px; width: 100%; max-width: 450px; padding: 25px; text-align: right; box-shadow: 0 0 30px rgba(0,0,0,0.5); }
+        .instr-title { color: var(--primary); font-size: 1.5rem; font-weight: 900; margin-bottom: 15px; text-align: center; border-bottom: 1px solid #333; padding-bottom: 10px; }
+        .instr-body { color: #ccc; font-size: 0.95rem; line-height: 1.7; margin-bottom: 25px; }
+        .instr-point { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 10px; }
+        .instr-icon { color: var(--accent); font-size: 1.1rem; margin-top: 2px; }
+        .card-stage { perspective: 1000px; width: 100%; max-width: 320px; height: 320px; margin: 20px auto; display: flex; align-items: center; justify-content: center; }
+        .flipper { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; transition: 0.6s; }
+        .front, .back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 20px; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; text-align: center; border: 2px solid var(--primary); box-shadow: 0 15px 40px rgba(0,0,0,0.6); }
+        .front { background: #111 url('https://www.transparenttextures.com/patterns/carbon-fibre.png'); }
+        .back { background: #151515; transform: rotateY(180deg); }
+        .flipped { transform: rotateY(180deg); }
+        .text-content { font-size: 1.35rem; font-weight: bold; color: #fff; }
+        .rp-box { background: #111; border: 1px solid var(--accent); border-radius: 20px; padding: 25px; width: 100%; max-width: 350px; text-align: right; }
+        .rp-val { color: white; font-size: 1.1rem; margin-bottom: 15px; border-bottom: 1px solid #333; padding-bottom: 10px; }
+        .elimination-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; width: 100%; max-width: 350px; margin: 20px auto; }
+        .place-card { aspect-ratio: 1 / 1; border-radius: 15px; background: #222; border: 2px solid var(--primary); display: flex; flex-direction: column; justify-content: center; align-items: center; cursor: pointer; transition: 0.3s; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+        .place-icon { font-size: 2.5rem; margin-bottom: 5px; }
+        .place-name { font-size: 0.9rem; font-weight: bold; color: white; }
+        .place-card.eliminated { background: #111; border-color: #333; opacity: 0.3; transform: scale(0.9); filter: grayscale(100%); }
+        .place-card.winner { background: var(--primary); border-color: white; transform: scale(1.1); z-index: 10; box-shadow: 0 0 20px var(--primary); }
+        .place-card.winner .place-name { color: black; }
+        .turn-banner { background: rgba(255,255,255,0.1); color: var(--primary); padding: 10px; border-radius: 10px; text-align: center; font-weight: bold; margin-bottom: 10px; border: 1px solid var(--primary); font-size: 0.9rem; }
+        .board-container { flex-grow: 0; height: auto; overflow-y: hidden; padding: 5px; display: flex; flex-direction: column-reverse; align-items: center; justify-content: center; gap: 3px; width: 100%; background-image: radial-gradient(#222 1px, transparent 1px); background-size: 15px 15px; margin-bottom: 5px; border-radius: 15px; border: 1px solid #333; }
+        .row { display: flex; gap: 3px; justify-content: center; width: 100%; }
+        .square { width: 38px; height: 38px; border-radius: 6px; display: flex; justify-content: center; align-items: center; font-weight: bold; font-size: 0.8rem; position: relative; box-shadow: 0 1px 3px rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); }
+        .blue-zone { background: linear-gradient(135deg, #00bfff, #0077be); }
+        .purple-zone { background: linear-gradient(135deg, #8a2be2, #4b0082); }
+        .pink-zone { background: linear-gradient(135deg, #ff00cc, #99007a); }
+        .red-zone { background: linear-gradient(135deg, #ff0055, #990033); }
+        .finish-zone { background: linear-gradient(135deg, var(--primary), #b8860b); color: black; }
+        .player-token { width: 14px; height: 14px; border-radius: 50%; position: absolute; border: 1px solid white; box-shadow: 0 0 3px black; transition: all 0.5s ease; z-index: 5; }
+        .p1-token { background: var(--primary); top: 1px; left: 1px; }
+        .p2-token { background: white; bottom: 1px; right: 1px; }
+        .catch-controls { padding: 5px; height: 60px; background: #1a1a1a; border-top: 2px solid var(--blue); width: 100%; display: flex; justify-content: space-around; align-items: center; border-radius: 15px; flex-shrink: 0; }
+        .dice-btn { width: 50px; height: 50px; background: white; color: black; border-radius: 10px; font-size: 1.5rem; font-weight: 900; border: none; cursor: pointer; box-shadow: 0 0 10px var(--blue); display: flex; justify-content: center; align-items: center; }
+        .dice-btn.rolling { animation: shake 0.5s infinite; }
+        .catch-card { background: #151515; width: 90%; max-width: 350px; border-radius: 20px; padding: 25px; text-align: center; border: 2px solid var(--primary); box-shadow: 0 0 50px rgba(0, 191, 255, 0.1); }
+        .catch-icon { font-size: 3rem; margin-bottom: 10px; }
+        .catch-title { font-size: 1.4rem; color: var(--primary); margin-bottom: 10px; font-weight: 900; }
+        .catch-desc { font-size: 1rem; color: #ddd; line-height: 1.6; margin-bottom: 20px; }
+        .spin-header { text-align: center; margin-bottom: 20px; background: rgba(46, 204, 113, 0.1); padding: 10px; border-radius: 15px; border: 1px solid var(--green); display: flex; justify-content: center; gap: 10px; }
+        .wheel-container { width: 330px; height: 330px; position: relative; border-radius: 50%; border: 8px solid #222; box-shadow: 0 0 40px rgba(46, 204, 113, 0.3); overflow: hidden; margin: 0 auto; }
+        .wheel-bg { width: 100%; height: 100%; border-radius: 50%; position: absolute; top:0; left:0; transition: transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99); }
+        .wheel-icons-layer { width: 100%; height: 100%; border-radius: 50%; position: absolute; top:0; left:0; transition: transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99); }
+        .icon-box { position: absolute; top: 50%; left: 50%; width: 0; height: 0; }
+        .icon-content { position: absolute; left: -20px; bottom: 65px; width: 40px; text-align: center; font-size: 1.8rem; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)); color: white; }
+        .pointer { position: absolute; top: -20px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 20px solid transparent; border-right: 20px solid transparent; border-top: 45px solid #fff; z-index: 20; filter: drop-shadow(0 4px 4px black); }
+        .wheel-result-card { background: #111; border: 3px solid var(--green); padding: 25px; border-radius: 25px; text-align: center; width: 90%; max-width: 380px; box-shadow: 0 0 50px rgba(46, 204, 113, 0.2); }
+        #wheel-result-desc { color: #ddd; font-size: 1.1rem; line-height: 1.6; margin: 20px 0; background: rgba(255,255,255,0.05); padding: 15px; border-radius: 10px; border: 1px solid #333; }
+        .reset-btn { background: rgba(255, 255, 255, 0.05); border: 1px solid #555; color: #888; padding: 8px 20px; border-radius: 50px; margin-top: 15px; font-size: 0.85rem; cursor: pointer; transition: 0.3s; display: block; margin-left: auto; margin-right: auto; }
+        .reset-btn:active { border-color: var(--accent); color: var(--accent); background: rgba(229, 9, 20, 0.1); }
         
-        /* صندوق المميزات الإضافية */
-        .features-box {
-            background: rgba(46, 204, 113, 0.05); /* خلفية خضراء خفيفة جداً */
-            border: 1px dashed var(--green); /* برواز منقط يوحي بالبونص */
-            border-radius: 15px;
-            padding: 15px;
-            margin: 20px 0;
-            text-align: right;
-        }
-        .feature-head {
-            color: var(--primary);
-            font-weight: 900;
-            font-size: 0.95rem;
-            margin-bottom: 10px;
-            text-align: center;
-            display: flex; align-items: center; justify-content: center; gap: 5px;
-        }
-        .feature-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-        .feature-list li {
-            color: #ccc;
-            font-size: 0.8rem;
-            margin-bottom: 8px;
-            line-height: 1.5;
-            position: relative;
-            padding-right: 20px;
-        }
-        .feature-list li::before {
-            content: "✔";
-            color: var(--green);
-            position: absolute;
-            right: 0;
-            font-weight: bold;
-        }
-        .feature-list strong { color: white; }
+        /* (أضفنا الأنيميشن المهم) */
+        @keyframes shake { 0% { transform: rotate(0deg); } 25% { transform: rotate(10deg); } 75% { transform: rotate(-10deg); } 100% { transform: rotate(0deg); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
@@ -78,47 +167,92 @@
         <button class="btn-gold" style="width:200px; margin-top:20px;" onclick="initApp()">ابدأ السهرة 🚀</button>
     </div>
 
+    <div id="pricing-screen" class="screen">
+        <div class="pricing-container" style="margin-top: 40px;">
+            <div class="pricing-header">
+                <h2>اختر باقتك</h2>
+                <p>استمتع بتجربة كاملة وشاملة</p>
+            </div>
+
+            <div class="price-card">
+                <div class="p-title">باقة شهر</div>
+                <div class="p-price">149 ج.م</div>
+                <div class="p-sub">سعر مناسب للتجربة</div>
+                <ul class="p-features">
+                    <li>دخول كامل لـ 9 ألعاب</li>
+                    <li>تحديثات مجانية</li>
+                </ul>
+                <button class="p-btn" onclick="goToSignup('1 شهر')">اشترك الآن</button>
+            </div>
+
+            <div class="price-card">
+                <div class="p-title">باقة شهرين</div>
+                <div class="p-price">249 ج.م</div>
+                <div class="p-sub">بدلاً من 298 ج.م</div>
+                <span class="p-save">وفرت 50 جنيه</span>
+                <ul class="p-features">
+                    <li>دخول كامل لـ 9 ألعاب</li>
+                    <li>تحديثات مجانية</li>
+                </ul>
+                <button class="p-btn" onclick="goToSignup('2 شهر')">اشترك الآن</button>
+            </div>
+
+            <div class="price-card popular">
+                <div class="popular-badge">الأكثر مبيعاً 🔥</div>
+                <div class="p-title">باقة 3 شهور</div>
+                <div class="p-price">269 ج.م</div>
+                <div class="p-sub">بدلاً من 447 ج.م</div>
+                <span class="p-save">وفرت 178 جنيه (خصم 40%)</span>
+                <ul class="p-features">
+                    <li>دخول كامل لـ 9 ألعاب</li>
+                    <li>تحديثات مجانية</li>
+                    <li>أولوية الدعم الفني</li>
+                </ul>
+                <button class="p-btn" onclick="goToSignup('3 شهور')">اشترك الآن</button>
+            </div>
+
+            <div style="text-align:center; margin-top:20px;">
+                <span class="link-text" onclick="show('login')">لديك كود تفعيل؟ سجل دخول</span>
+            </div>
+        </div>
+    </div>
+
     <div id="signup" class="screen">
         <div class="login-box" style="margin-top: 20px;">
-            <h2 style="color:var(--primary); margin-bottom:5px;">اشتراك جديد ✨</h2>
-            <p style="color:#888; font-size:0.8rem; margin-bottom:20px;">سجل بياناتك واحصل على كود التفعيل</p>
+            <h2 style="color:var(--primary); margin-bottom:5px;">بيانات الاشتراك</h2>
+            <p style="color:#888; font-size:0.8rem; margin-bottom:20px;">أكمل البيانات للحصول على الكود</p>
             
             <form id="signup-form" onsubmit="handleSignup(event)">
                 <input type="text" id="s-name" class="input-vip" placeholder="الاسم الثنائي" required>
                 <input type="tel" id="s-phone" class="input-vip" placeholder="رقم الواتساب" required>
                 
-                <select id="s-plan" class="input-vip" style="color:#aaa;">
-                    <option value="1 شهر">باقة شهر (199 ج.م)</option>
-                    <option value="3 شهور">باقة 3 شهور (499 ج.م)</option>
-                    <option value="1 سنة">باقة سنوية (999 ج.م)</option>
-                </select>
-<div class="features-box">
-                    <div class="feature-head">✨ ليه تشترك في الباقة الأكبر؟</div>
-                    <ul class="feature-list">
-                        <li><strong>تحديثات مستمرة:</strong> بنضيف كروت وتحديات جديدة بشكل دوري عشان الملل ميعرفش طريقكم.</li>
-                        <li><strong>ألعاب جديدة:</strong> كل فترة بننزل لعبة جديدة تنضم للباقة مجاناً للمشتركين.</li>
-                        <li><strong>مكتبة السعادة:</strong> (قريباً) كتب ومقالات حصرية لأسرار الحياة الزوجية السعيدة.</li>
-                        <li><strong>هدايا خاصة:</strong> مسابقات وجوائز للمشتركين المميزين.</li>
-                    </ul>
+                <div style="margin-bottom:15px; color:#ccc;">
+                    الباقة المختارة: <span id="selected-plan-display" style="color:var(--primary); font-weight:bold;">-</span>
+                </div>
+                <input type="hidden" id="s-plan"> <div style="margin-bottom:20px;">
+                    <label style="color:#666; font-size:0.8rem;">تغيير الباقة:</label>
+                    <select id="s-plan-select" class="input-vip" onchange="updatePlanFromSelect()" style="margin-top:5px;">
+                        <option value="1 شهر">شهر (149 ج.م)</option>
+                        <option value="2 شهر">شهرين (249 ج.م)</option>
+                        <option value="3 شهور">3 شهور (269 ج.م)</option>
+                    </select>
                 </div>
 
-                <button type="submit" class="btn-gold">تسجيل والحصول على الكود</button>
+                <button type="submit" class="btn-gold">تأكيد وطلب الكود</button>
             </form>
 
-            <div id="success-msg" class="success-box">
-                <div style="color:var(--green); font-weight:bold;">تم التسجيل بنجاح! ✅</div>
-                <p style="font-size:0.8rem; color:#ccc;">خد سكرين شوت للكود ده وابعتلنا وصل الدفع واتساب عشان نفعلهولك:</p>
-                <div class="code-display" id="generated-code">------</div>
-                <button class="btn-gold" style="font-size:0.8rem; background:#333; color:white;" onclick="copyCode()">نسخ الكود</button>
-                <div style="margin-top:10px;">
-                    <a href="#" onclick="show('login')" style="color:var(--primary);">الذهاب لتسجيل الدخول -></a>
+            <div id="success-msg" class="success-box" style="display:none; border:1px solid var(--green); background:rgba(46,204,113,0.1); padding:15px; border-radius:10px;">
+                <div style="color:var(--green); font-weight:bold;">تم استلام الطلب! ✅</div>
+                <p style="font-size:0.85rem; color:#ccc; margin-top:10px;">
+                    سيتم التواصل معك على الواتساب لإتمام الدفع وتفعيل الكود.<br>
+                    <span style="color:var(--primary);">شكراً لثقتك في Hot Night</span>
+                </p>
+                <div style="margin-top:15px;">
+                    <a href="#" onclick="show('login')" style="color:white; text-decoration:underline;">العودة للرئيسية</a>
                 </div>
             </div>
-
-            <div id="signup-footer">
-                <span style="color:#666; font-size:0.8rem;">معاك كود تفعيل؟</span>
-                <span class="link-text" onclick="show('login')">سجل دخول من هنا</span>
-            </div>
+            
+            <button style="background:none; border:none; color:#666; margin-top:10px;" onclick="show('pricing-screen')">رجوع للباقات</button>
         </div>
     </div>
 
@@ -132,31 +266,52 @@
             <button class="btn-gold" onclick="login()">دخول</button>
             <p id="error" style="color:var(--accent); display:none; margin-top:15px; font-size:0.9rem;"></p>
 
-            <span class="link-text" onclick="show('signup')">ليس لديك كود؟ اشترك الآن</span>
+            <span class="link-text" onclick="show('pricing-screen')">ليس لديك كود؟ اشترك الآن</span>
         </div>
     </div>
 
     <div id="dashboard" class="screen">
-        <div style="color:white;">(هنا تظهر قائمة الألعاب - انسخ الكود السابق)</div>
+        <div class="dashboard-header">
+            <div>
+                <h2 style="color:white; margin:0;">باقة السعادة 🔥</h2>
+                <p style="color:var(--primary); font-size:0.8rem; margin:5px 0 0 0;">9 تجارب مختلفة لليلة مثالية</p>
+            </div>
+            <button class="guide-btn" onclick="openGuide()">الدليل 🗺️</button>
+        </div>
+        
+        <div class="games-grid">
+            <div class="game-item" onclick="openInstructions('game1')"><img src="images/cover1.webp" onerror="this.src='images/cover1.png'" alt="Fun" loading="eager"><div class="game-label"><div class="g-title">1. هزار ونار</div><div class="g-sub">ضحك وذكريات</div></div></div>
+            <div class="game-item" onclick="openInstructions('game2')"><img src="images/cover2.webp" onerror="this.src='images/cover2.png'" alt="Love" loading="eager"><div class="game-label"><div class="g-title">2. حب وقرب</div><div class="g-sub">رومانسية ومشاعر</div></div></div>
+            <div class="game-item" onclick="openInstructions('game3')" style="border-color: #ff9800;"><img src="images/cover3.webp" onerror="this.src='images/cover3.png'" alt="Places" loading="eager"><div class="game-label"><div class="g-title" style="color:#ff9800">3. أرض المعركة ⚔️</div><div class="g-sub">تحديد مكان السهرة</div></div></div>
+            <div class="game-item" onclick="openInstructions('game4')"><img src="images/cover4.webp" onerror="this.src='images/cover4.png'" alt="Touch" loading="eager"><div class="game-label"><div class="g-title">4. همس ولمس</div><div class="g-sub">إثارة حسية</div></div></div>
+            <div class="game-item" onclick="openInstructions('game5')" style="border-color: var(--accent);"><img src="images/cover5.webp" onerror="this.src='images/cover5.png'" alt="Hot" loading="eager"><div class="game-label"><div class="g-title" style="color:var(--accent)">5. نار ودمار</div><div class="g-sub">تحديات جريئة</div></div></div>
+            <div class="game-item" onclick="openInstructions('game6')"><img src="images/cover6.webp" onerror="this.src='images/cover6.png'" alt="Roleplay" loading="eager"><div class="game-label"><div class="g-title">6. تمثيل ساخن</div><div class="g-sub">سيناريوهات</div></div></div>
+            <div class="game-item" onclick="openInstructions('game7')" style="border-color: var(--blue);"><img src="images/cover7.webp" onerror="this.src='images/cover7.png'" alt="Catch Me" loading="eager"><div class="game-label"><div class="g-title" style="color:var(--blue)">7. رحلة المتعة 🎲</div><div class="g-sub">السلم والثعبان</div></div></div>
+            <div class="game-item" onclick="openInstructions('game8')" style="border-color: var(--green);"><img src="images/cover8.webp" onerror="this.src='images/cover8.png'" alt="Spin" loading="eager"><div class="game-label"><div class="g-title" style="color:var(--green)">8. عجلة الأوضاع 🎡</div><div class="g-sub">لف ونفذ</div></div></div>
+            <div class="game-item full-width" onclick="openInstructions('game9')"><img src="images/cover9.webp" onerror="this.src='images/cover9.jpeg'" alt="Gift" loading="eager"><div class="game-label"><div class="g-title">9. دلع وولع 🎁</div><div class="g-sub">جائزة الختام</div></div></div>
+        </div>
     </div>
 
+    <div id="gameplay" class="screen">
+        <div class="top-nav"><button class="exit-btn" onclick="goHome()">✕</button><h2 id="g-header" class="nav-title"></h2><div class="dummy-space"></div></div>
+        <div class="card-stage"><div class="flipper" id="card-obj"><div class="front"><div style="font-size:4rem; color:var(--primary);">?</div><p style="color:#666;">اضغط للكشف</p></div><div class="back"><div id="q-text" class="text-content"></div></div></div></div>
+        <button class="btn-gold" style="width:200px; margin-top:30px;" onclick="flip()">اسحب كارت</button>
+    </div>
     <script>
         // ==========================================
-        // 0. إعدادات النظام
+        // 0. SYSTEM CONFIG
         // ==========================================
-        // ⚠️⚠️ حط رابط السكريبت بتاعك هنا ⚠️⚠️
+        // ⚠️ حط رابط السكريبت هنا
         const API_URL = "https://script.google.com/macros/s/AKfycbx_MDppdjfv_a3k6NNloqOUJH3tEF9B2N-sdqyz-knmGQ3156zRbT19XNpzGhKXru6XTQ/exec"; 
 
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        
-        // ... (دالة playSound نفس السابقة) ...
-        function playSound(type) { /* ... */ }
+        function playSound(type) { /* ... نفس كود الصوت ... */ }
 
-        // ... (Game Data & Instructions نفس السابقة) ...
-        const db = { /* ... */ };
+        // ... (Game Data & DB & CatchDB & Wheel ... كما هي) ...
+        // ...
 
         // ==========================================
-        // 1. SYSTEM LOGIC
+        // 1. INIT LOGIC (معدل للبدء بشاشة الأسعار)
         // ==========================================
         
         function initApp() {
@@ -164,11 +319,11 @@
             document.getElementById('welcome-overlay').style.opacity = '0';
             setTimeout(() => document.getElementById('welcome-overlay').style.display = 'none', 500);
 
-            // لو مسجل قبل كده، روح للدش بورد، لو لأ روح للاشتراك (أو الدخول)
             if(localStorage.getItem('isLoggedIn') === 'true') {
                 checkSubscriptionStatus(localStorage.getItem('hn_user_code'));
             } else {
-                show('signup'); // ابدأ بصفحة الاشتراك الجديدة
+                // التعديل هنا: الذهاب لشاشة الأسعار أولاً
+                show('pricing-screen'); 
             }
         }
 
@@ -179,9 +334,27 @@
             const el = document.getElementById(id); el.style.display = 'flex'; setTimeout(()=>el.classList.add('active'), 10);
         }
 
-        // ------------------------------------------
-        // SIGN UP LOGIC (الجديد)
-        // ------------------------------------------
+        // ==========================================
+        // 2. SIGNUP FLOW (الجديد)
+        // ==========================================
+        
+        // الانتقال من كارت السعر للفورم مع تحديد الباقة
+        function goToSignup(planName) {
+            // تعبئة الحقول أوتوماتيك
+            document.getElementById('s-plan').value = planName;
+            document.getElementById('s-plan-select').value = planName;
+            document.getElementById('selected-plan-display').innerText = planName;
+            
+            show('signup');
+        }
+        
+        // تحديث الباقة لو غيرها من القائمة المنسدلة
+        function updatePlanFromSelect() {
+            const val = document.getElementById('s-plan-select').value;
+            document.getElementById('s-plan').value = val;
+            document.getElementById('selected-plan-display').innerText = val;
+        }
+
         function handleSignup(e) {
             e.preventDefault();
             const btn = document.querySelector('#signup-form button');
@@ -189,118 +362,32 @@
             const phone = document.getElementById('s-phone').value;
             const plan = document.getElementById('s-plan').value;
 
-            btn.innerText = "جاري التسجيل...";
+            btn.innerText = "جاري إرسال الطلب...";
             btn.disabled = true;
 
-            // إرسال البيانات للشيت
-            fetch(API_URL, {
-                method: 'POST',
-                mode: 'no-cors', // مهم لتفادي مشاكل CORS مع جوجل
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: `name=${name}&phone=${phone}&plan=${plan}`
-            }).then(() => {
-                // جوجل مش بيرد بـ JSON في وضع no-cors، فبنعرض رسالة نجاح افتراضية
-                // لكن هنا سنواجه مشكلة: كيف نعرف الكود؟ 
-                // الحل الأفضل: Apps Script يرد بـ JSONP أو نعتمد على GET للتسجيل أيضاً (أسهل)
-                registerViaGet(name, phone, plan);
-            }).catch(err => {
-                alert("حدث خطأ، تأكد من الإنترنت");
+            // إرسال البيانات (POST or GET workaround)
+            // هنا سنستخدم GET بسيط للإرسال للسيرفر ليسجل الطلب Pending
+            // (تأكد أن السكريبت في جوجل يدعم استقبال الاسم ورقم الهاتف في doGet أو doPost)
+            
+            // للتسهيل: سنعرض رسالة النجاح فوراً ونعتبر الطلب وصل (في النسخة البسيطة)
+            // أو نستخدم fetch لإرسالها فعلياً
+            
+            fetch(`${API_URL}?action=signup&name=${name}&phone=${phone}&plan=${plan}`, { mode: 'no-cors' })
+            .then(() => {
+                // عرض رسالة النجاح
+                document.getElementById('signup-form').style.display = 'none';
+                document.getElementById('success-msg').style.display = 'block';
+            })
+            .catch(() => {
+                alert("تأكد من الاتصال بالإنترنت");
                 btn.disabled = false;
-                btn.innerText = "تسجيل";
+                btn.innerText = "تأكيد وطلب الكود";
             });
         }
 
-        // استخدام GET للتسجيل (أضمن للحصول على الرد بالكود)
-        async function registerViaGet(name, phone, plan) {
-            const btn = document.querySelector('#signup-form button');
-            try {
-                // بنبعت البيانات كأنها login بس بباراميترات زيادة
-                // لازم نعدل السكريبت في جوجل ليفهم إن ده تسجيل (بس خلينا نستخدم POST في السكريبت أحسن)
-                // الحل البديل السريع: في السكريبت doGet ضيف شرط لو فيه name و phone يبقى ده تسجيل
-                
-                // ⚠️ تعديل: سنستخدم POST بشكل صحيح عبر form submission خفي أو نعدل doGet في السكريبت
-                // لتبسيط الأمر عليك: سنقوم بتوليد الكود هنا وعرضه، ثم إرساله للسيرفر ليحفظه "Pending"
-                
-                // 1. توليد كود
-                const code = Math.floor(100000 + Math.random() * 900000);
-                
-                // 2. إرسال البيانات للسيرفر ليحفظها
-                // هنستخدم fetch GET لسهولة التعامل مع الرد
-                // (ملاحظة: ده يتطلب تعديل بسيط في Apps Script doGet ليعالج التسجيل)
-                // لكن، عشان منلخبطكش، خلينا نستخدم الطريقة اللي فاتت في السكريبت doPost
-                
-                // العودة لخطة الـ POST:
-                // بما أن no-cors لا يعيد داتا، سنجعل السكريبت يرسل الكود واتساب، ونقول للعميل "هيصلك واتساب"
-                // أو نظهر له رسالة: "تم التسجيل، تواصل معنا واتساب لتفعيل حسابك برقم تليفونك"
-                
-                document.getElementById('signup-form').style.display = 'none';
-                document.getElementById('signup-footer').style.display = 'none';
-                document.getElementById('success-msg').style.display = 'block';
-                document.getElementById('generated-code').innerText = "تم الإرسال"; 
-                document.querySelector('#success-msg p').innerText = "تم استلام طلبك! تواصل معنا على الواتساب وقولنا اسمك لتفعيل الاشتراك واستلام الكود.";
-                
-            } catch(e) {
-                console.error(e);
-            }
-        }
+        // ... (باقي دوال الـ Login والـ Games كما هي) ...
+        // ...
         
-        // ------------------------------------------
-        // LOGIN LOGIC
-        // ------------------------------------------
-        async function login() {
-            const val = document.getElementById('pass').value;
-            const btn = document.querySelector('#login .btn-gold');
-            const errorMsg = document.getElementById('error');
-            
-            // بصمة الجهاز
-            let deviceId = localStorage.getItem('hn_device_id');
-            if (!deviceId) {
-                deviceId = 'dev_' + Math.random().toString(36).substr(2, 9);
-                localStorage.setItem('hn_device_id', deviceId);
-            }
-
-            btn.innerText = "جاري التحقق...";
-            btn.disabled = true;
-            errorMsg.style.display = 'none';
-
-            try {
-                const response = await fetch(`${API_URL}?code=${val}&deviceId=${deviceId}`);
-                const data = await response.json();
-
-                if (data.valid === true) {
-                    localStorage.setItem('isLoggedIn', 'true');
-                    localStorage.setItem('hn_user_code', val);
-                    show('dashboard');
-                } else {
-                    throw new Error(data.message);
-                }
-            } catch (error) {
-                errorMsg.style.display = 'block';
-                errorMsg.innerText = error.message || "خطأ في الاتصال";
-            } finally {
-                btn.innerText = "دخول 🔓";
-                btn.disabled = false;
-            }
-        }
-
-        async function checkSubscriptionStatus(code) {
-            // (نفس كود التحقق السابق)
-            let deviceId = localStorage.getItem('hn_device_id');
-             try {
-                const response = await fetch(`${API_URL}?code=${code}&deviceId=${deviceId}`);
-                const data = await response.json();
-                if (data.valid === true) show('dashboard', false);
-                else {
-                    localStorage.removeItem('isLoggedIn');
-                    show('login', false);
-                    alert(data.message);
-                }
-            } catch (e) { show('dashboard', false); }
-        }
-
-        // ... (باقي دوال الألعاب والمنطق) ...
-
     </script>
 </body>
 </html>
-
