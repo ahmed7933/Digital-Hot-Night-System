@@ -29,6 +29,45 @@
 
         /* باقي الـ CSS للألعاب (نفس القديم بالظبط) */
         /* ... (اختصاراً للمساحة، افترض وجود CSS الألعاب هنا) ... */
+        
+        /* صندوق المميزات الإضافية */
+        .features-box {
+            background: rgba(46, 204, 113, 0.05); /* خلفية خضراء خفيفة جداً */
+            border: 1px dashed var(--green); /* برواز منقط يوحي بالبونص */
+            border-radius: 15px;
+            padding: 15px;
+            margin: 20px 0;
+            text-align: right;
+        }
+        .feature-head {
+            color: var(--primary);
+            font-weight: 900;
+            font-size: 0.95rem;
+            margin-bottom: 10px;
+            text-align: center;
+            display: flex; align-items: center; justify-content: center; gap: 5px;
+        }
+        .feature-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .feature-list li {
+            color: #ccc;
+            font-size: 0.8rem;
+            margin-bottom: 8px;
+            line-height: 1.5;
+            position: relative;
+            padding-right: 20px;
+        }
+        .feature-list li::before {
+            content: "✔";
+            color: var(--green);
+            position: absolute;
+            right: 0;
+            font-weight: bold;
+        }
+        .feature-list strong { color: white; }
     </style>
 </head>
 <body>
@@ -53,6 +92,15 @@
                     <option value="3 شهور">باقة 3 شهور (499 ج.م)</option>
                     <option value="1 سنة">باقة سنوية (999 ج.م)</option>
                 </select>
+<div class="features-box">
+                    <div class="feature-head">✨ ليه تشترك في الباقة الأكبر؟</div>
+                    <ul class="feature-list">
+                        <li><strong>تحديثات مستمرة:</strong> بنضيف كروت وتحديات جديدة بشكل دوري عشان الملل ميعرفش طريقكم.</li>
+                        <li><strong>ألعاب جديدة:</strong> كل فترة بننزل لعبة جديدة تنضم للباقة مجاناً للمشتركين.</li>
+                        <li><strong>مكتبة السعادة:</strong> (قريباً) كتب ومقالات حصرية لأسرار الحياة الزوجية السعيدة.</li>
+                        <li><strong>هدايا خاصة:</strong> مسابقات وجوائز للمشتركين المميزين.</li>
+                    </ul>
+                </div>
 
                 <button type="submit" class="btn-gold">تسجيل والحصول على الكود</button>
             </form>
@@ -255,3 +303,4 @@
     </script>
 </body>
 </html>
+
