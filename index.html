@@ -575,6 +575,7 @@ async function getDeviceFingerprint() {
     }
 }
 
+// استبدل الدالة القديمة بهذه النسخة المصححة
 async function performLogin() {
     const username = document.getElementById('login-username').value.trim();
     const password = document.getElementById('login-password').value.trim();
@@ -582,13 +583,56 @@ async function performLogin() {
     const btn = document.getElementById('login-btn');
     const spinner = document.getElementById('login-spinner');
 
+    // تنظيف الرسائل السابقة
     msgBox.className = "login-msg"; msgBox.innerText = "";
 
     if(!username || !password) {
-        msgBox.innerText = "اكتب الاسم والباسورد يا بطل 😉";
+        msgBox.innerText = "اكتب البيانات يا فنان 😉";
         msgBox.classList.add("msg-error");
         return;
     }
+
+    // تشغيل وضع التحميل
+    btn.disabled = true;
+    spinner.style.display = 'inline-block';
+    btn.style.opacity = '0.7';
+    msgBox.innerText = "جاري الاتصال بالسيرفر...";
+
+    try {
+        const deviceId = await getDeviceFingerprint();
+        
+        // بناء الرابط للإرسال (GET Request)
+        // ملاحظة: تأكد ان رابط السكربت في المتغير GOOGLE_SCRIPT_URL صحيح
+        const url = `${GOOGLE_SCRIPT_URL}?action=login&username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}&deviceId=${deviceId}`;
+        
+        const response = await fetch(url);
+        const data = await response.json(); // الآن يمكننا قراءة الرد الحقيقي!
+
+        if (data.success === true) {
+            // نجاح الدخول
+            spinner.style.display = 'none';
+            msgBox.innerText = data.message || "تم الدخول بنجاح ✅";
+            msgBox.classList.add("msg-success");
+            
+            setTimeout(() => {
+                document.getElementById('login-overlay').style.display = 'none';
+                const welcome = document.getElementById('welcome-overlay');
+                if(welcome) welcome.style.display = 'flex';
+            }, 1000);
+        } else {
+            // فشل الدخول (باسورد غلط / اشتراك منتهي / جهاز غريب)
+            throw new Error(data.message);
+        }
+
+    } catch (err) {
+        spinner.style.display = 'none';
+        btn.disabled = false;
+        btn.style.opacity = '1';
+        // عرض رسالة الخطأ القادمة من السيرفر
+        msgBox.innerText = err.message || "بيانات خاطئة أو خطأ في الاتصال ❌";
+        msgBox.classList.add("msg-error");
+    }
+}
 
     // تفعيل وضع التحميل
     btn.disabled = true;
@@ -2731,6 +2775,7 @@ function eliminatePlace(id) {
     </script>
 </body>
 </html>
+
 
 
 
