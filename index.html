@@ -2396,7 +2396,7 @@ function initApp() {
     }, 500);
 }
 
-// 2. دالة طلب الكود من السيرفر
+// دالة طلب الكود (محدثة: ترسل البصمة لمنع التكرار)
 async function requestActivationCode() {
     const phoneInput = document.getElementById('user-phone');
     const phone = phoneInput.value.trim();
@@ -2411,21 +2411,30 @@ async function requestActivationCode() {
     btn.disabled = true;
 
     try {
-        // إرسال طلب تسجيل (Action: signup)
+        // 1. الحصول على البصمة أولاً
+        const fp = await fpPromise;
+        const result = await fp.get();
+        const visitorId = result.visitorId;
+
+        // 2. إرسال الطلب (رقم + بصمة)
         const response = await fetch(APPS_SCRIPT_URL, {
             method: 'POST',
-            body: JSON.stringify({ action: 'signup', phone: phone }),
+            body: JSON.stringify({ 
+                action: 'signup', 
+                phone: phone,
+                fingerprint: visitorId // إضافة البصمة هنا
+            }),
             headers: { "Content-Type": "text/plain;charset=utf-8" },
         });
 
         const data = await response.json();
 
         if (data.status === 'new' || data.status === 'existing') {
-            // عرض الكود للعميلة
             document.getElementById('final-code').innerText = data.code;
             show('code-result-screen');
         } else {
-            alert("حدث خطأ: " + data.message);
+            // هنا ستظهر رسالة الرفض لو الجهاز مسجل قبل كده
+            alert(data.message); 
         }
 
     } catch (err) {
@@ -2889,6 +2898,7 @@ function eliminatePlace(id) {
     </script>
 </body>
 </html>
+
 
 
 
